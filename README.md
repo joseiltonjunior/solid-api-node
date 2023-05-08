@@ -7,10 +7,13 @@ Node API Solid (D'Coffee Shop Client).
 - [x] Deve ser possível se cadastrar;
 - [x] Deve ser possível se autenticar;
 - [x] Deve ser possível obter o perfil de um usuário logado;
+- [ ] Deve ser possível cadastrar um endereço;
+- [ ] Deve ser possível cadastrar uma compra;
 
 ## RNs (Regras de negócio)
 
 - [x] O usuário não deve poder se cadastrar com um e-mail duplicado;
+- [ ] O usuário não deve poder se cadastrar com um telefone duplicado;
 
 ## RNFs (Requisitos não-funcionais)
 
