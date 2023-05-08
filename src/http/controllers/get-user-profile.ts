@@ -18,7 +18,7 @@ export async function getUserProfile(
   try {
     const getProfileUseCase = makeGetProfileUseCase()
 
-    const { user } = await getProfileUseCase.execute({ userId: id })
+    const { user } = await getProfileUseCase.execute({ id })
 
     return reply.status(200).send(JSON.stringify(user))
   } catch (err) {

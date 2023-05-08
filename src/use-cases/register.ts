@@ -9,6 +9,7 @@ interface registerProps {
   email: string
   password: string
   id: string
+  phone: string
 }
 
 interface RegisterUseCaseResponse {
@@ -23,6 +24,7 @@ export class RegisterUseCase {
     name,
     password,
     id,
+    phone,
   }: registerProps): Promise<RegisterUseCaseResponse> {
     const password_hash = await hash(password, 6)
 
@@ -37,6 +39,7 @@ export class RegisterUseCase {
       email,
       password_hash,
       id,
+      phone,
     })
 
     return { user }
