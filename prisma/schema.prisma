@@ -15,21 +15,11 @@ model User {
   name          String
   email         String   @unique
   password_hash String
-  phone         String
+  phone         String   @unique
   created_at    DateTime @default(now())
-
-  Order Order[]
+  orders        Order[]
 
   @@map("users")
-}
-
-model Product {
-  id       String @id @default(uuid())
-  price_id String
-  quantity Int
-
-  Order   Order  @relation(fields: [orderId], references: [id])
-  orderId String
 }
 
 model Order {
@@ -37,9 +27,19 @@ model Order {
   created_at DateTime @default(now())
   payment_id String
 
-  User    User      @relation(fields: [userId], references: [id])
-  userId  String
-  Product Product[]
+  user     User      @relation(fields: [user_id], references: [id])
+  user_id  String
+  products Product[]
 
   @@map("orders")
+}
+
+model Product {
+  id       String @id
+  quantity Int
+
+  order    Order  @relation(fields: [order_id], references: [id])
+  order_id String
+
+  @@map("products")
 }
