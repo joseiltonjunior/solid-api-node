@@ -1,6 +1,7 @@
 -- CreateTable
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
+    "customer_id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password_hash" TEXT NOT NULL,
@@ -14,7 +15,8 @@ CREATE TABLE "users" (
 CREATE TABLE "orders" (
     "id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "payment_id" TEXT NOT NULL,
+    "method_payment_id" TEXT NOT NULL,
+    "payment_intent_id" TEXT NOT NULL,
     "user_id" TEXT NOT NULL,
 
     CONSTRAINT "orders_pkey" PRIMARY KEY ("id")
@@ -23,7 +25,10 @@ CREATE TABLE "orders" (
 -- CreateTable
 CREATE TABLE "products" (
     "id" TEXT NOT NULL,
+    "price_id" TEXT NOT NULL,
     "quantity" INTEGER NOT NULL,
+    "img_url" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "order_id" TEXT NOT NULL,
 
     CONSTRAINT "products_pkey" PRIMARY KEY ("id")

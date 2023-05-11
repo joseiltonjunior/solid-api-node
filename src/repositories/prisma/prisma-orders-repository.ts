@@ -4,9 +4,9 @@ import { prisma } from '@/lib/prisma'
 
 export class PrismaOrdersRepository implements OrderRepository {
   async findById(id: string) {
-    const user = await prisma.order.findUnique({
+    const user = await prisma.order.findFirst({
       where: {
-        id,
+        payment_intent_id: id,
       },
     })
 

@@ -11,7 +11,8 @@ datasource db {
 }
 
 model User {
-  id            String   @id
+  id            String   @id @default(uuid())
+  customer_id   String
   name          String
   email         String   @unique
   password_hash String
@@ -23,9 +24,10 @@ model User {
 }
 
 model Order {
-  id         String   @id
-  created_at DateTime @default(now())
-  payment_id String
+  id                String   @id @default(uuid())
+  created_at        DateTime @default(now())
+  method_payment_id String
+  payment_intent_id String   @unique
 
   user     User      @relation(fields: [user_id], references: [id])
   user_id  String
@@ -35,8 +37,11 @@ model Order {
 }
 
 model Product {
-  id       String @id
-  quantity Int
+  id         String   @id @default(uuid())
+  price_id   String
+  quantity   Int
+  img_url    String
+  created_at DateTime @default(now())
 
   order    Order  @relation(fields: [order_id], references: [id])
   order_id String

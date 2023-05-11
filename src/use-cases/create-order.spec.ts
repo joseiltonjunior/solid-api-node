@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { InMemoryOrdersRepository } from '@/repositories/in-memory/in-memory-orders-repository'
 import { CreateOrderUseCase } from './create-order'
+import { OrderAlreadyExistsError } from './errors/order-already-exists-error'
 
 let ordersRepository: InMemoryOrdersRepository
 let sut: CreateOrderUseCase
@@ -14,10 +15,26 @@ describe('Create a Order Use Case', () => {
   it('should be able to create', async () => {
     const { order } = await sut.execute({
       clientId: 'client1',
-      paymentId: 'card',
-      id: 'order1',
+      methodPaymentId: 'card',
+      paymentIntentId: 'pi2089321',
     })
 
     expect(order.id).toEqual(expect.any(String))
+  })
+
+  it('should not be able to create with same id twice', async () => {
+    await sut.execute({
+      clientId: 'client1',
+      methodPaymentId: 'card',
+      paymentIntentId: 'pay01',
+    })
+
+    expect(() =>
+      sut.execute({
+        clientId: 'client1',
+        methodPaymentId: 'card',
+        paymentIntentId: 'pay01',
+      }),
+    ).rejects.toBeInstanceOf(OrderAlreadyExistsError)
   })
 })

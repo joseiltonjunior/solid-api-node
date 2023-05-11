@@ -20,6 +20,7 @@ describe('Authenticate Use Case', () => {
       name: 'Junior Ferreira',
       password_hash: await hash('123456', 6),
       id: 'user1',
+      phone: '81999999999',
     })
 
     const { user } = await sut.execute({
@@ -45,6 +46,7 @@ describe('Authenticate Use Case', () => {
       name: 'Junior Ferreira',
       password_hash: await hash('123456', 6),
       id: 'user1',
+      phone: '81999999999',
     })
 
     expect(() =>

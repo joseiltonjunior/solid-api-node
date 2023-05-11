@@ -3,6 +3,7 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import { compare } from 'bcryptjs'
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
 import { UserAlreadyExistsError } from './errors/user-already-exists-error'
+import { UserAlreadyExistsPhoneError } from './errors/user-already-phone-exists'
 
 let usersRepository: InMemoryUsersRepository
 let sut: RegisterUseCase
@@ -18,11 +19,11 @@ describe('Register Use Case', () => {
       name: 'Junior Ferreira',
       email: 'junior.teste@gmail.com',
       password: '123456',
-      id: 'user1',
+      customerId: 'cus01',
       phone: '81999999999',
     })
 
-    expect(user.id).toEqual(expect.any(String))
+    expect(user.customer_id).toEqual(expect.any(String))
   })
 
   it('should hash user password upon registration', async () => {
@@ -30,7 +31,7 @@ describe('Register Use Case', () => {
       name: 'Junior Ferreira',
       email: 'junior.teste@gmail.com',
       password: '123456',
-      id: 'user1',
+      customerId: 'cus01',
       phone: '81999999999',
     })
 
@@ -49,7 +50,7 @@ describe('Register Use Case', () => {
       name: 'Junior Ferreira',
       email,
       password: '123456',
-      id: 'user1',
+      customerId: 'cus01',
       phone: '81999999999',
     })
 
@@ -58,9 +59,31 @@ describe('Register Use Case', () => {
         name: 'Junior Ferreira',
         email,
         password: '123456',
-        id: 'user2',
+        customerId: 'cus01',
         phone: '81999999999',
       }),
     ).rejects.toBeInstanceOf(UserAlreadyExistsError)
+  })
+
+  it('should not be able to register with same phone twice', async () => {
+    const phone = '81999999999'
+
+    await sut.execute({
+      name: 'Junior Ferreira',
+      email: 'junior.teste@gmail.com',
+      password: '123456',
+      customerId: 'cus01',
+      phone,
+    })
+
+    expect(() =>
+      sut.execute({
+        name: 'Junior Ferreira',
+        email: 'junior.teste2@gmail.com',
+        password: '123456',
+        customerId: 'cus01',
+        phone,
+      }),
+    ).rejects.toBeInstanceOf(UserAlreadyExistsPhoneError)
   })
 })

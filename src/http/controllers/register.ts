@@ -3,6 +3,7 @@ import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
 
 import { UserAlreadyExistsError } from '@/use-cases/errors/user-already-exists-error'
+import { UserAlreadyExistsPhoneError } from '@/use-cases/errors/user-already-phone-exists'
 import { makeRegisterUseCase } from '@/use-cases/factories/make-register-use-case'
 
 export async function register(request: FastifyRequest, reply: FastifyReply) {
@@ -10,11 +11,11 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
     name: z.string(),
     email: z.string().email(),
     password: z.string().min(6),
-    id: z.string(),
+    customerId: z.string(),
     phone: z.string().min(11),
   })
 
-  const { email, name, password, id, phone } = registerBodySchema.parse(
+  const { email, name, password, customerId, phone } = registerBodySchema.parse(
     request.body,
   )
 
@@ -25,13 +26,17 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
       name,
       email,
       password,
-      id,
+      customerId,
       phone,
     })
 
-    return reply.status(201).send(JSON.stringify({ user }))
+    return reply.status(201).send(JSON.stringify(user))
   } catch (err) {
     if (err instanceof UserAlreadyExistsError) {
+      return reply.status(409).send({ message: err.message })
+    }
+
+    if (err instanceof UserAlreadyExistsPhoneError) {
       return reply.status(409).send({ message: err.message })
     }
 

@@ -3,9 +3,9 @@ import { OrderRepository } from '@/repositories/orders-repository'
 import { OrderAlreadyExistsError } from './errors/order-already-exists-error'
 
 interface OrderUseCaseRequest {
-  id: string
+  paymentIntentId: string
   clientId: string
-  paymentId: string
+  methodPaymentId: string
 }
 
 interface OrderUseCaseResponse {
@@ -17,19 +17,21 @@ export class CreateOrderUseCase {
 
   async execute({
     clientId,
-    paymentId,
-    id,
+    methodPaymentId,
+    paymentIntentId,
   }: OrderUseCaseRequest): Promise<OrderUseCaseResponse> {
-    const orderWithSameId = await this.ordersRepository.findById(id)
+    const orderWithSameId = await this.ordersRepository.findById(
+      paymentIntentId,
+    )
 
     if (orderWithSameId) {
       throw new OrderAlreadyExistsError()
     }
 
     const order = await this.ordersRepository.create({
-      payment_id: paymentId,
-      id,
+      method_payment_id: methodPaymentId,
       user_id: clientId,
+      payment_intent_id: paymentIntentId,
     })
 
     return {
