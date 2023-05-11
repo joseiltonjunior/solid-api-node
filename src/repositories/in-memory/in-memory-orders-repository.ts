@@ -16,7 +16,7 @@ export class InMemoryOrdersRepository implements OrderRepository {
 
   async create(data: Prisma.OrderUncheckedCreateInput): Promise<Order> {
     const order = {
-      id: 'order01',
+      id: 1,
       payment_intent_id: data.payment_intent_id,
       method_payment_id: data.method_payment_id,
       user_id: data.user_id,

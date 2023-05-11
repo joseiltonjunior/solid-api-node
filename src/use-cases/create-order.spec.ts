@@ -14,7 +14,7 @@ describe('Create a Order Use Case', () => {
 
   it('should be able to create', async () => {
     const { order } = await sut.execute({
-      clientId: 'client1',
+      clientId: 1,
       methodPaymentId: 'card',
       paymentIntentId: 'pi2089321',
     })
@@ -24,14 +24,14 @@ describe('Create a Order Use Case', () => {
 
   it('should not be able to create with same id twice', async () => {
     await sut.execute({
-      clientId: 'client1',
+      clientId: 1,
       methodPaymentId: 'card',
       paymentIntentId: 'pay01',
     })
 
     expect(() =>
       sut.execute({
-        clientId: 'client1',
+        clientId: 1,
         methodPaymentId: 'card',
         paymentIntentId: 'pay01',
       }),

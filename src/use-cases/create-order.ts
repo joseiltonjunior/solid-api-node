@@ -4,7 +4,7 @@ import { OrderAlreadyExistsError } from './errors/order-already-exists-error'
 
 interface OrderUseCaseRequest {
   paymentIntentId: string
-  clientId: string
+  clientId: number
   methodPaymentId: string
 }
 

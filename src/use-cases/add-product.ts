@@ -1,7 +1,7 @@
 import { ProductRepository } from '@/repositories/products-repository'
 
 interface ProductUseCaseRequest {
-  orderId: string
+  orderId: number
   listProducts: {
     priceId: string
     quantity: number
@@ -14,7 +14,7 @@ interface ProductUseCaseResponse {
     price_id: string
     quantity: number
     img_url: string
-    order_id: string
+    order_id: number
   }[]
 }
 

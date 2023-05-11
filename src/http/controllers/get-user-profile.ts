@@ -10,7 +10,7 @@ export async function getUserProfile(
   reply: FastifyReply,
 ) {
   const getProfileParamSchema = z.object({
-    id: z.string(),
+    id: z.number(),
   })
 
   const { id } = getProfileParamSchema.parse(request.params)

@@ -3,7 +3,7 @@ import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
 
 import { UserAlreadyExistsError } from '@/use-cases/errors/user-already-exists-error'
-import { UserAlreadyExistsPhoneError } from '@/use-cases/errors/user-already-phone-exists'
+
 import { makeRegisterUseCase } from '@/use-cases/factories/make-register-use-case'
 
 export async function register(request: FastifyRequest, reply: FastifyReply) {
@@ -36,7 +36,7 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
       return reply.status(409).send({ message: err.message })
     }
 
-    if (err instanceof UserAlreadyExistsPhoneError) {
+    if (err instanceof UserAlreadyExistsError) {
       return reply.status(409).send({ message: err.message })
     }
 

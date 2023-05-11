@@ -6,7 +6,7 @@ export class InMemoryProductsRepository implements ProductRepository {
 
   async create(data: Prisma.ProductUncheckedCreateInput): Promise<Product> {
     const product = {
-      id: 'prod01',
+      id: 1,
       price_id: data.price_id,
       created_at: new Date(),
       img_url: data.img_url,

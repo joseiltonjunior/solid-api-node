@@ -4,6 +4,16 @@ import { UserRepository } from '../users-repository'
 export class InMemoryUsersRepository implements UserRepository {
   public items: User[] = []
 
+  async findByCustomerId(customerId: string): Promise<User | null> {
+    const user = this.items.find((item) => item.customer_id === customerId)
+
+    if (!user) {
+      return null
+    }
+
+    return user
+  }
+
   async findByPhone(phone: string): Promise<User | null> {
     const user = this.items.find((item) => item.phone === phone)
 
@@ -14,7 +24,7 @@ export class InMemoryUsersRepository implements UserRepository {
     return user
   }
 
-  async findById(id: string): Promise<User | null> {
+  async findById(id: number): Promise<User | null> {
     const user = this.items.find((item) => item.id === id)
 
     if (!user) {
@@ -36,7 +46,7 @@ export class InMemoryUsersRepository implements UserRepository {
 
   async create(data: Prisma.UserCreateInput): Promise<User> {
     const user = {
-      id: 'user01',
+      id: 1,
       customer_id: data.customer_id,
       name: data.name,
       email: data.email,

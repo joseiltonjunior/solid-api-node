@@ -11,7 +11,7 @@ export async function createOrder(
   reply: FastifyReply,
 ) {
   const createOrderBodySchema = z.object({
-    clientId: z.string(),
+    clientId: z.number(),
     methodPaymentId: z.string(),
     paymentIntentId: z.string(),
     listProducts: z

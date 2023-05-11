@@ -4,7 +4,7 @@ import { User } from '@prisma/client'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
 
 interface GetUserProfileUseCaseRequest {
-  id: string
+  id: number
 }
 
 interface GetUserProfileUseCaseResponse {

@@ -3,7 +3,6 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import { compare } from 'bcryptjs'
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
 import { UserAlreadyExistsError } from './errors/user-already-exists-error'
-import { UserAlreadyExistsPhoneError } from './errors/user-already-phone-exists'
 
 let usersRepository: InMemoryUsersRepository
 let sut: RegisterUseCase
@@ -59,8 +58,8 @@ describe('Register Use Case', () => {
         name: 'Junior Ferreira',
         email,
         password: '123456',
-        customerId: 'cus01',
-        phone: '81999999999',
+        customerId: 'cus02',
+        phone: '81999999992',
       }),
     ).rejects.toBeInstanceOf(UserAlreadyExistsError)
   })
@@ -81,9 +80,31 @@ describe('Register Use Case', () => {
         name: 'Junior Ferreira',
         email: 'junior.teste2@gmail.com',
         password: '123456',
-        customerId: 'cus01',
+        customerId: 'cus02',
         phone,
       }),
-    ).rejects.toBeInstanceOf(UserAlreadyExistsPhoneError)
+    ).rejects.toBeInstanceOf(UserAlreadyExistsError)
+  })
+
+  it('should not be able to register with same customer ID twice', async () => {
+    const customerId = 'customer01'
+
+    await sut.execute({
+      name: 'Junior Ferreira',
+      email: 'junior.teste@gmail.com',
+      password: '123456',
+      customerId,
+      phone: '81935838768',
+    })
+
+    expect(() =>
+      sut.execute({
+        name: 'Junior Ferreira',
+        email: 'junior.teste2@gmail.com',
+        password: '123456',
+        customerId,
+        phone: '83976568765',
+      }),
+    ).rejects.toBeInstanceOf(UserAlreadyExistsError)
   })
 })

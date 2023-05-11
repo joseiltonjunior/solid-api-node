@@ -3,6 +3,16 @@ import { Prisma, User } from '@prisma/client'
 import { UserRepository } from '../users-repository'
 
 export class PrismaUsersRepository implements UserRepository {
+  async findByCustomerId(customerId: string): Promise<User | null> {
+    const user = await prisma.user.findFirst({
+      where: {
+        customer_id: customerId,
+      },
+    })
+
+    return user
+  }
+
   async findByPhone(phone: string): Promise<User | null> {
     const user = await prisma.user.findUnique({
       where: {
@@ -13,7 +23,7 @@ export class PrismaUsersRepository implements UserRepository {
     return user
   }
 
-  async findById(id: string) {
+  async findById(id: number) {
     const user = await prisma.user.findUnique({
       where: {
         id,

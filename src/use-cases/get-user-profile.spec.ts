@@ -20,8 +20,8 @@ describe('Get UserProfile Use Case', () => {
       email: 'junior.teste@gmail.com',
       name: 'Junior Ferreira',
       password_hash: await hash('123456', 6),
-      id: 'user1',
       phone: '81999999999',
+      customer_id: 'user1',
     })
 
     const { user } = await sut.execute({
@@ -35,7 +35,7 @@ describe('Get UserProfile Use Case', () => {
   it('should not be able to get user profile with wrong id', async () => {
     expect(() =>
       sut.execute({
-        id: 'non-existing-id',
+        id: 999,
       }),
     ).rejects.toBeInstanceOf(ResourceNotFoundError)
   })

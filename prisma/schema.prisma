@@ -11,8 +11,8 @@ datasource db {
 }
 
 model User {
-  id            String   @id @default(uuid())
-  customer_id   String
+  id            Int      @id @default(autoincrement())
+  customer_id   String   @unique
   name          String
   email         String   @unique
   password_hash String
@@ -24,27 +24,27 @@ model User {
 }
 
 model Order {
-  id                String   @id @default(uuid())
+  id                Int      @id @default(autoincrement())
   created_at        DateTime @default(now())
   method_payment_id String
   payment_intent_id String   @unique
 
   user     User      @relation(fields: [user_id], references: [id])
-  user_id  String
+  user_id  Int
   products Product[]
 
   @@map("orders")
 }
 
 model Product {
-  id         String   @id @default(uuid())
+  id         Int      @id @default(autoincrement())
   price_id   String
   quantity   Int
   img_url    String
   created_at DateTime @default(now())
 
-  order    Order  @relation(fields: [order_id], references: [id])
-  order_id String
+  order    Order @relation(fields: [order_id], references: [id])
+  order_id Int
 
   @@map("products")
 }

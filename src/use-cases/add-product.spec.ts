@@ -13,7 +13,7 @@ describe('Add a Product Use Case', () => {
 
   it('should be able to create', async () => {
     const { products } = await sut.execute({
-      orderId: 'order1',
+      orderId: 1,
       listProducts: [
         { quantity: 2, imgUrl: 'img_url', priceId: 'prod1' },
         { quantity: 2, imgUrl: 'img_url', priceId: 'prod2' },
