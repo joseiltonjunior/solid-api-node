@@ -18,10 +18,11 @@ describe('Register Use Case', () => {
       name: 'Junior Ferreira',
       email: 'junior.teste@gmail.com',
       password: '123456',
-      id: 'user1',
+      customerId: 'cus01',
+      phone: '81999999999',
     })
 
-    expect(user.id).toEqual(expect.any(String))
+    expect(user.customer_id).toEqual(expect.any(String))
   })
 
   it('should hash user password upon registration', async () => {
@@ -29,7 +30,8 @@ describe('Register Use Case', () => {
       name: 'Junior Ferreira',
       email: 'junior.teste@gmail.com',
       password: '123456',
-      id: 'user1',
+      customerId: 'cus01',
+      phone: '81999999999',
     })
 
     const isPasswordCorrectlyHashed = await compare(
@@ -47,7 +49,8 @@ describe('Register Use Case', () => {
       name: 'Junior Ferreira',
       email,
       password: '123456',
-      id: 'user1',
+      customerId: 'cus01',
+      phone: '81999999999',
     })
 
     expect(() =>
@@ -55,7 +58,52 @@ describe('Register Use Case', () => {
         name: 'Junior Ferreira',
         email,
         password: '123456',
-        id: 'user2',
+        customerId: 'cus02',
+        phone: '81999999992',
+      }),
+    ).rejects.toBeInstanceOf(UserAlreadyExistsError)
+  })
+
+  it('should not be able to register with same phone twice', async () => {
+    const phone = '81999999999'
+
+    await sut.execute({
+      name: 'Junior Ferreira',
+      email: 'junior.teste@gmail.com',
+      password: '123456',
+      customerId: 'cus01',
+      phone,
+    })
+
+    expect(() =>
+      sut.execute({
+        name: 'Junior Ferreira',
+        email: 'junior.teste2@gmail.com',
+        password: '123456',
+        customerId: 'cus02',
+        phone,
+      }),
+    ).rejects.toBeInstanceOf(UserAlreadyExistsError)
+  })
+
+  it('should not be able to register with same customer ID twice', async () => {
+    const customerId = 'customer01'
+
+    await sut.execute({
+      name: 'Junior Ferreira',
+      email: 'junior.teste@gmail.com',
+      password: '123456',
+      customerId,
+      phone: '81935838768',
+    })
+
+    expect(() =>
+      sut.execute({
+        name: 'Junior Ferreira',
+        email: 'junior.teste2@gmail.com',
+        password: '123456',
+        customerId,
+        phone: '83976568765',
       }),
     ).rejects.toBeInstanceOf(UserAlreadyExistsError)
   })
