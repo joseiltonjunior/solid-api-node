@@ -10,7 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model Customer {
   id            Int      @id @default(autoincrement())
   customer_id   String   @unique
   name          String
@@ -29,9 +29,9 @@ model Order {
   method_payment_id String
   payment_intent_id String   @unique
 
-  user     User      @relation(fields: [user_id], references: [id])
-  user_id  Int
-  products Product[]
+  customer    Customer  @relation(fields: [customer_id], references: [id])
+  customer_id Int
+  products    Product[]
 
   @@map("orders")
 }

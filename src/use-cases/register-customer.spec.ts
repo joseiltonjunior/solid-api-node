@@ -1,16 +1,16 @@
-import { RegisterUseCase } from './register'
+import { RegisterCustomerUseCase } from './register-customer'
 import { describe, it, expect, beforeEach } from 'vitest'
 import { compare } from 'bcryptjs'
-import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
-import { UserAlreadyExistsError } from './errors/user-already-exists-error'
+import { InMemoryCustumerRepository } from '@/repositories/in-memory/in-memory-customers-repository'
+import { CustomerAlreadyExistsError } from './errors/customer-already-exists-error'
 
-let usersRepository: InMemoryUsersRepository
-let sut: RegisterUseCase
+let customersRepository: InMemoryCustumerRepository
+let sut: RegisterCustomerUseCase
 
-describe('Register Use Case', () => {
+describe('Customer Register Use Case', () => {
   beforeEach(() => {
-    usersRepository = new InMemoryUsersRepository()
-    sut = new RegisterUseCase(usersRepository)
+    customersRepository = new InMemoryCustumerRepository()
+    sut = new RegisterCustomerUseCase(customersRepository)
   })
 
   it('should be able to register', async () => {
@@ -61,7 +61,7 @@ describe('Register Use Case', () => {
         customerId: 'cus02',
         phone: '81999999992',
       }),
-    ).rejects.toBeInstanceOf(UserAlreadyExistsError)
+    ).rejects.toBeInstanceOf(CustomerAlreadyExistsError)
   })
 
   it('should not be able to register with same phone twice', async () => {
@@ -83,7 +83,7 @@ describe('Register Use Case', () => {
         customerId: 'cus02',
         phone,
       }),
-    ).rejects.toBeInstanceOf(UserAlreadyExistsError)
+    ).rejects.toBeInstanceOf(CustomerAlreadyExistsError)
   })
 
   it('should not be able to register with same customer ID twice', async () => {
@@ -105,6 +105,6 @@ describe('Register Use Case', () => {
         customerId,
         phone: '83976568765',
       }),
-    ).rejects.toBeInstanceOf(UserAlreadyExistsError)
+    ).rejects.toBeInstanceOf(CustomerAlreadyExistsError)
   })
 })

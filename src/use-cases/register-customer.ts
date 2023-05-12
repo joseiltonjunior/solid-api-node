@@ -1,11 +1,11 @@
-import { UserRepository } from '@/repositories/users-repository'
+import { CustomerRepository } from '@/repositories/customers-repository'
 
 import { hash } from 'bcryptjs'
-import { UserAlreadyExistsError } from './errors/user-already-exists-error'
+import { CustomerAlreadyExistsError } from './errors/customer-already-exists-error'
 
-import { User } from '@prisma/client'
+import { Customer } from '@prisma/client'
 
-interface registerProps {
+interface registerCustomerRequest {
   name: string
   email: string
   password: string
@@ -13,12 +13,12 @@ interface registerProps {
   phone: string
 }
 
-interface RegisterUseCaseResponse {
-  user: User
+interface RegisterCustomerUseCaseResponse {
+  user: Customer
 }
 
-export class RegisterUseCase {
-  constructor(private userRepository: UserRepository) {}
+export class RegisterCustomerUseCase {
+  constructor(private userRepository: CustomerRepository) {}
 
   async execute({
     email,
@@ -26,7 +26,7 @@ export class RegisterUseCase {
     password,
     customerId,
     phone,
-  }: registerProps): Promise<RegisterUseCaseResponse> {
+  }: registerCustomerRequest): Promise<RegisterCustomerUseCaseResponse> {
     const password_hash = await hash(password, 6)
 
     const userWithSameEmail = await this.userRepository.findByEmail(email)
@@ -36,15 +36,15 @@ export class RegisterUseCase {
     )
 
     if (userWithSameEmail) {
-      throw new UserAlreadyExistsError({ type: 'email' })
+      throw new CustomerAlreadyExistsError({ type: 'email' })
     }
 
     if (userWithSamePhone) {
-      throw new UserAlreadyExistsError({ type: 'phone' })
+      throw new CustomerAlreadyExistsError({ type: 'phone' })
     }
 
     if (userWithSameCustomerId) {
-      throw new UserAlreadyExistsError({ type: 'customerId' })
+      throw new CustomerAlreadyExistsError({ type: 'customerId' })
     }
 
     const user = await this.userRepository.create({

@@ -6,6 +6,7 @@ Node API Solid (D'Coffee Shop Client).
 
 - [x] Deve ser possível se cadastrar;
 - [ ] Deve ser possível editar um cliente
+- [ ] Deve ser possível buscar cliente pelo nome
 - [x] Deve ser possível se autenticar;
 - [x] Deve ser possível obter o perfil de um usuário logado;
 - [ ] Deve ser possível cadastrar um endereço;

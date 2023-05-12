@@ -1,9 +1,9 @@
-interface UserAlreadyExistsProps {
+interface CustomerAlreadyExistsProps {
   type: 'email' | 'phone' | 'customerId'
 }
 
-export class UserAlreadyExistsError extends Error {
-  constructor({ type }: UserAlreadyExistsProps) {
+export class CustomerAlreadyExistsError extends Error {
+  constructor({ type }: CustomerAlreadyExistsProps) {
     let message = ''
     switch (type) {
       case 'email':
@@ -19,7 +19,7 @@ export class UserAlreadyExistsError extends Error {
         break
 
       default:
-        message = 'User already exists.'
+        message = 'Customer already exists.'
     }
 
     super(message)
