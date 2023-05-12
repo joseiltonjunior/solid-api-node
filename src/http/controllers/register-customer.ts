@@ -2,11 +2,14 @@ import { FastifyRequest, FastifyReply } from 'fastify'
 
 import { z } from 'zod'
 
-import { UserAlreadyExistsError } from '@/use-cases/errors/user-already-exists-error'
+import { CustomerAlreadyExistsError } from '@/use-cases/errors/customer-already-exists-error'
 
-import { makeRegisterUseCase } from '@/use-cases/factories/make-register-use-case'
+import { makeRegisterCustomerUseCase } from '@/use-cases/factories/make-register-customer-use-case'
 
-export async function register(request: FastifyRequest, reply: FastifyReply) {
+export async function registerCustomer(
+  request: FastifyRequest,
+  reply: FastifyReply,
+) {
   const registerBodySchema = z.object({
     name: z.string(),
     email: z.string().email(),
@@ -20,7 +23,7 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
   )
 
   try {
-    const registerUseCase = makeRegisterUseCase()
+    const registerUseCase = makeRegisterCustomerUseCase()
 
     const { user } = await registerUseCase.execute({
       name,
@@ -32,11 +35,11 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
 
     return reply.status(201).send(JSON.stringify(user))
   } catch (err) {
-    if (err instanceof UserAlreadyExistsError) {
+    if (err instanceof CustomerAlreadyExistsError) {
       return reply.status(409).send({ message: err.message })
     }
 
-    if (err instanceof UserAlreadyExistsError) {
+    if (err instanceof CustomerAlreadyExistsError) {
       return reply.status(409).send({ message: err.message })
     }
 

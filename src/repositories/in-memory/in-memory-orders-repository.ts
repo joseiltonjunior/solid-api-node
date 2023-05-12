@@ -9,7 +9,7 @@ export class InMemoryOrdersRepository implements OrderRepository {
     page: number,
   ): Promise<Order[] | null> {
     const orders = this.items
-      .filter((item) => item.user_id === clientId)
+      .filter((item) => item.customer_id === clientId)
       .slice((page - 1) * 20, page * 20)
 
     if (!orders) {
@@ -34,7 +34,7 @@ export class InMemoryOrdersRepository implements OrderRepository {
       id: 1,
       payment_intent_id: data.payment_intent_id,
       method_payment_id: data.method_payment_id,
-      user_id: data.user_id,
+      customer_id: data.customer_id,
       created_at: new Date(),
     }
 

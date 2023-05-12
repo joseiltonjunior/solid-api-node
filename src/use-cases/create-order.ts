@@ -30,7 +30,7 @@ export class CreateOrderUseCase {
 
     const order = await this.ordersRepository.create({
       method_payment_id: methodPaymentId,
-      user_id: clientId,
+      customer_id: clientId,
       payment_intent_id: paymentIntentId,
     })
 

@@ -1,12 +1,12 @@
 import { FastifyInstance } from 'fastify'
-import { register } from './controllers/register'
+import { registerCustomer } from './controllers/register-customer'
 import { authenticate } from './controllers/authenticate'
-import { profile } from './controllers/profile'
+import { profile } from './controllers/fetch-customer-profile'
 import { createOrder } from './controllers/create-order'
 import { fetchOrders } from './controllers/fetch-orders'
 
 export async function appRoutes(app: FastifyInstance) {
-  app.post('/users', register)
+  app.post('/customers', registerCustomer)
   app.post('/sessions', authenticate)
 
   /** Auth routes **/
