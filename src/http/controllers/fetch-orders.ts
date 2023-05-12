@@ -25,7 +25,7 @@ export async function fetchOrders(
       page: Number(page),
     })
 
-    return reply.status(200).send(JSON.stringify(orders))
+    return reply.status(200).send(JSON.stringify({ orders }))
   } catch (err) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(400).send({ message: err.message })

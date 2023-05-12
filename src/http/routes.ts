@@ -1,9 +1,10 @@
 import { FastifyInstance } from 'fastify'
 import { registerCustomer } from './controllers/register-customer'
 import { authenticate } from './controllers/authenticate'
-import { profile } from './controllers/fetch-customer-profile'
+import { fetchCustomerProfile } from './controllers/fetch-customer-profile'
 import { createOrder } from './controllers/create-order'
 import { fetchOrders } from './controllers/fetch-orders'
+import { verifyJWT } from './middlewares/verify-jwt'
 
 export async function appRoutes(app: FastifyInstance) {
   app.post('/customers', registerCustomer)
@@ -14,5 +15,5 @@ export async function appRoutes(app: FastifyInstance) {
   app.post('/orders', createOrder)
   app.get('/orders', fetchOrders)
 
-  app.get('/me/:id', profile)
+  app.get('/me', { onRequest: [verifyJWT] }, fetchCustomerProfile)
 }
