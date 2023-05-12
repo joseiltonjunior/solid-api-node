@@ -19,7 +19,7 @@ describe('Create a Order Use Case', () => {
       paymentIntentId: 'pi2089321',
     })
 
-    expect(order.id).toEqual(expect.any(String))
+    expect(order.id).toEqual(expect.any(Number))
   })
 
   it('should not be able to create with same id twice', async () => {

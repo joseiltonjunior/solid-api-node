@@ -2,21 +2,18 @@ import { FastifyRequest, FastifyReply } from 'fastify'
 
 import { z } from 'zod'
 
-import { makeGetProfileUseCase } from '@/use-cases/factories/make-get-user-profile-use-case'
+import { makeGetUserProfileUseCase } from '@/use-cases/factories/make-get-user-profile-use-case'
 import { ResourceNotFoundError } from '@/use-cases/errors/resource-not-found-error'
 
-export async function getUserProfile(
-  request: FastifyRequest,
-  reply: FastifyReply,
-) {
-  const getProfileParamSchema = z.object({
+export async function profile(request: FastifyRequest, reply: FastifyReply) {
+  const getProfileBodySchema = z.object({
     id: z.number(),
   })
 
-  const { id } = getProfileParamSchema.parse(request.params)
+  const { id } = getProfileBodySchema.parse(request.params)
 
   try {
-    const getProfileUseCase = makeGetProfileUseCase()
+    const getProfileUseCase = makeGetUserProfileUseCase()
 
     const { user } = await getProfileUseCase.execute({ id })
 
