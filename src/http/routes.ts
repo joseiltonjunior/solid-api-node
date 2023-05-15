@@ -12,8 +12,8 @@ export async function appRoutes(app: FastifyInstance) {
 
   /** Auth routes **/
 
-  app.post('/orders', createOrder)
-  app.get('/orders', fetchOrders)
+  app.post('/orders', { onRequest: [verifyJWT] }, createOrder)
+  app.get('/orders', { onRequest: [verifyJWT] }, fetchOrders)
 
   app.get('/me', { onRequest: [verifyJWT] }, fetchCustomerProfile)
 }

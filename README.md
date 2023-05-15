@@ -23,4 +23,4 @@ Node API Solid PostgreSQL (D'Coffee Shop API Client).
 - [x] A senha do cliente precisa estar criptografada;
 - [x] Os dados da aplicação precisam estar persistidos em um banco PostgreSQL;
 - [ ] Todas listas de dados precisam estar paginadas com 20 itens por página;
-- [ ] O cliente deve ser identificado por um JWT (JSON Web Token);
+- [x] O cliente deve ser identificado por um JWT (JSON Web Token);

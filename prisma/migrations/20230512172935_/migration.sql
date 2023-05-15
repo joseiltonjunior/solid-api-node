@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE "users" (
+CREATE TABLE "customers" (
     "id" SERIAL NOT NULL,
     "customer_id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
@@ -8,7 +8,7 @@ CREATE TABLE "users" (
     "phone" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "users_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "customers_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -35,19 +35,19 @@ CREATE TABLE "products" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "users_customer_id_key" ON "users"("customer_id");
+CREATE UNIQUE INDEX "customers_customer_id_key" ON "customers"("customer_id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+CREATE UNIQUE INDEX "customers_email_key" ON "customers"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "users_phone_key" ON "users"("phone");
+CREATE UNIQUE INDEX "customers_phone_key" ON "customers"("phone");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "orders_payment_intent_id_key" ON "orders"("payment_intent_id");
 
 -- AddForeignKey
-ALTER TABLE "orders" ADD CONSTRAINT "orders_customer_id_fkey" FOREIGN KEY ("customer_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "orders" ADD CONSTRAINT "orders_customer_id_fkey" FOREIGN KEY ("customer_id") REFERENCES "customers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "products" ADD CONSTRAINT "products_order_id_fkey" FOREIGN KEY ("order_id") REFERENCES "orders"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

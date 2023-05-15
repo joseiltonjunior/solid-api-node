@@ -20,7 +20,7 @@ model Customer {
   created_at    DateTime @default(now())
   orders        Order[]
 
-  @@map("users")
+  @@map("customers")
 }
 
 model Order {

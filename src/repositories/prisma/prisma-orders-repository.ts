@@ -9,6 +9,8 @@ export class PrismaOrdersRepository implements OrderRepository {
   ): Promise<Order[] | null> {
     const orders = await prisma.order.findMany({
       where: { customer_id: clientId },
+      take: 20,
+      skip: (page - 1) * 20,
     })
 
     return orders
