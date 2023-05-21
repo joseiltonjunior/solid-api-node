@@ -5,6 +5,7 @@ import { z } from 'zod'
 import { makeFetchOrdersUseCase } from '@/use-cases/factories/make-fetch-orders-use-case'
 import { ResourceNotFoundError } from '@/use-cases/errors/resource-not-found-error'
 import { NoOrderCustomerError } from '@/use-cases/errors/no-order-customer-error'
+// import { makeFetchProductsUseCase } from '@/use-cases/factories/make-fetch-products-use-case'
 
 export async function fetchOrders(
   request: FastifyRequest,
@@ -19,11 +20,16 @@ export async function fetchOrders(
 
   try {
     const fetchOrdersUseCase = makeFetchOrdersUseCase()
+    // const fetchProductdUseCase = makeFetchProductsUseCase()
 
     const { orders } = await fetchOrdersUseCase.execute({
       clientId: Number(clientId),
       page: Number(page),
     })
+
+    // const { products } = await fetchProductdUseCase.execute({
+    //   orderId: orders[0].id,
+    // })
 
     return reply.status(200).send(JSON.stringify({ orders }))
   } catch (err) {

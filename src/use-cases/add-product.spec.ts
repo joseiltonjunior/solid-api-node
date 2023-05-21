@@ -3,16 +3,16 @@ import { InMemoryProductsRepository } from '@/repositories/in-memory/in-memory-p
 import { AddProductUseCase } from './add-product'
 
 let productsRepository: InMemoryProductsRepository
-let sut: AddProductUseCase
+let addProductUseCase: AddProductUseCase
 
 describe('Add a Product Use Case', () => {
   beforeEach(() => {
     productsRepository = new InMemoryProductsRepository()
-    sut = new AddProductUseCase(productsRepository)
+    addProductUseCase = new AddProductUseCase(productsRepository)
   })
 
   it('should be able to create', async () => {
-    const { products } = await sut.execute({
+    const { products } = await addProductUseCase.execute({
       orderId: 1,
       listProducts: [
         { quantity: 2, imgUrl: 'img_url', priceId: 'prod1' },

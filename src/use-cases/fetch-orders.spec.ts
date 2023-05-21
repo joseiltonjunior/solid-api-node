@@ -4,12 +4,12 @@ import { FetchOrdersUseCase } from './fetch-orders'
 import { InMemoryOrdersRepository } from '@/repositories/in-memory/in-memory-orders-repository'
 
 let ordersRepository: InMemoryOrdersRepository
-let sut: FetchOrdersUseCase
+let fetchOrdersUseCase: FetchOrdersUseCase
 
 describe('Fetch Orders Use Case', () => {
   beforeEach(() => {
     ordersRepository = new InMemoryOrdersRepository()
-    sut = new FetchOrdersUseCase(ordersRepository)
+    fetchOrdersUseCase = new FetchOrdersUseCase(ordersRepository)
   })
 
   it('should be able to fetch orders', async () => {
@@ -25,7 +25,10 @@ describe('Fetch Orders Use Case', () => {
       payment_intent_id: 'pi2089322',
     })
 
-    const { orders } = await sut.execute({ clientId: 1, page: 1 })
+    const { orders } = await fetchOrdersUseCase.execute({
+      clientId: 1,
+      page: 1,
+    })
 
     expect(orders).toHaveLength(2)
     expect(orders).toEqual([
@@ -43,7 +46,10 @@ describe('Fetch Orders Use Case', () => {
       })
     }
 
-    const { orders } = await sut.execute({ clientId: 1, page: 2 })
+    const { orders } = await fetchOrdersUseCase.execute({
+      clientId: 1,
+      page: 2,
+    })
 
     expect(orders).toHaveLength(2)
     expect(orders).toEqual([

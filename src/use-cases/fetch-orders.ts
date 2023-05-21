@@ -1,5 +1,4 @@
 import { Order } from '@prisma/client'
-import { ResourceNotFoundError } from './errors/resource-not-found-error'
 import { OrderRepository } from '@/repositories/orders-repository'
 import { NoOrderCustomerError } from './errors/no-order-customer-error'
 
@@ -25,10 +24,6 @@ export class FetchOrdersUseCase {
     )
 
     if (!orders) {
-      throw new ResourceNotFoundError()
-    }
-
-    if (orders.length < 1) {
       throw new NoOrderCustomerError()
     }
 

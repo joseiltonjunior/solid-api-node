@@ -4,16 +4,16 @@ import { CreateOrderUseCase } from './create-order'
 import { OrderAlreadyExistsError } from './errors/order-already-exists-error'
 
 let ordersRepository: InMemoryOrdersRepository
-let sut: CreateOrderUseCase
+let createOrderUseCase: CreateOrderUseCase
 
 describe('Create a Order Use Case', () => {
   beforeEach(() => {
     ordersRepository = new InMemoryOrdersRepository()
-    sut = new CreateOrderUseCase(ordersRepository)
+    createOrderUseCase = new CreateOrderUseCase(ordersRepository)
   })
 
   it('should be able to create', async () => {
-    const { order } = await sut.execute({
+    const { order } = await createOrderUseCase.execute({
       clientId: 1,
       methodPaymentId: 'card',
       paymentIntentId: 'pi2089321',
@@ -23,14 +23,14 @@ describe('Create a Order Use Case', () => {
   })
 
   it('should not be able to create with same id twice', async () => {
-    await sut.execute({
+    await createOrderUseCase.execute({
       clientId: 1,
       methodPaymentId: 'card',
       paymentIntentId: 'pay01',
     })
 
     expect(() =>
-      sut.execute({
+      createOrderUseCase.execute({
         clientId: 1,
         methodPaymentId: 'card',
         paymentIntentId: 'pay01',
