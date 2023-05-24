@@ -52,7 +52,7 @@ describe('Make an order (E2E)', () => {
     expect(orderResponse.statusCode).toEqual(201)
     expect(order).toEqual(
       expect.objectContaining({
-        id: 1,
+        id: expect.any(Number),
       }),
     )
   })

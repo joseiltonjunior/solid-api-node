@@ -38,7 +38,7 @@ describe('Fetch Orders Use Case', () => {
   })
 
   it('should be able to fetch paginated orders', async () => {
-    for (let i = 1; i <= 22; i++) {
+    for (let i = 1; i <= 12; i++) {
       await ordersRepository.create({
         customer_id: 1,
         method_payment_id: 'card',
@@ -46,15 +46,18 @@ describe('Fetch Orders Use Case', () => {
       })
     }
 
-    const { orders } = await fetchOrdersUseCase.execute({
+    const orderResponse = await fetchOrdersUseCase.execute({
       clientId: 1,
       page: 2,
     })
 
-    expect(orders).toHaveLength(2)
-    expect(orders).toEqual([
-      expect.objectContaining({ payment_intent_id: 'payment21' }),
-      expect.objectContaining({ payment_intent_id: 'payment22' }),
+    expect(orderResponse.orders).toHaveLength(2)
+    expect(orderResponse.orders).toEqual([
+      expect.objectContaining({ payment_intent_id: 'payment11' }),
+      expect.objectContaining({ payment_intent_id: 'payment12' }),
     ])
+    expect(orderResponse.currentPage).toEqual(2)
+    expect(orderResponse.totalOrders).toEqual(12)
+    expect(orderResponse.totalPages).toEqual(2)
   })
 })

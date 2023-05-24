@@ -1,19 +1,28 @@
 import { Order, Prisma } from '@prisma/client'
-import { OrderRepository } from '../orders-repository'
+import { OrderRepository, OrdersPaginated } from '../orders-repository'
 import { prisma } from '@/lib/prisma'
 
 export class PrismaOrdersRepository implements OrderRepository {
   async findManyByIdPaginated(
     clientId: number,
     page: number,
-  ): Promise<Order[] | null> {
+  ): Promise<OrdersPaginated | null> {
     const orders = await prisma.order.findMany({
       where: { customer_id: clientId },
-      take: 20,
-      skip: (page - 1) * 20,
+      take: 10,
+      skip: (page - 1) * 10,
     })
 
-    return orders
+    const totalOrders = await prisma.order.findMany({
+      where: { customer_id: clientId },
+    })
+
+    return {
+      orders,
+      currentPage: page,
+      totalOrders: totalOrders.length,
+      totalPages: Math.ceil(totalOrders.length / 10),
+    }
   }
 
   async findById(id: string) {

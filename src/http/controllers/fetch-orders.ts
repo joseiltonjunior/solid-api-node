@@ -5,7 +5,7 @@ import { z } from 'zod'
 import { makeFetchOrdersUseCase } from '@/use-cases/factories/make-fetch-orders-use-case'
 import { ResourceNotFoundError } from '@/use-cases/errors/resource-not-found-error'
 import { NoOrderCustomerError } from '@/use-cases/errors/no-order-customer-error'
-// import { makeFetchProductsUseCase } from '@/use-cases/factories/make-fetch-products-use-case'
+import { makeFetchProductsUseCase } from '@/use-cases/factories/make-fetch-products-use-case'
 
 export async function fetchOrders(
   request: FastifyRequest,
@@ -19,18 +19,37 @@ export async function fetchOrders(
 
   try {
     const fetchOrdersUseCase = makeFetchOrdersUseCase()
-    // const fetchProductdUseCase = makeFetchProductsUseCase()
+    const fetchProductdUseCase = makeFetchProductsUseCase()
 
-    const { orders } = await fetchOrdersUseCase.execute({
-      clientId: Number(request.user.sub),
-      page: Number(page),
-    })
+    const { currentPage, orders, totalOrders, totalPages } =
+      await fetchOrdersUseCase.execute({
+        clientId: Number(request.user.sub),
+        page: Number(page),
+      })
 
-    // const { products } = await fetchProductdUseCase.execute({
-    //   orderId: orders[0].id,
-    // })
+    const ordersWithProducts = await Promise.all(
+      orders.map(async (order) => {
+        const products = await fetchProductdUseCase.execute({
+          orderId: order.id,
+        })
 
-    return reply.status(200).send(JSON.stringify({ orders }))
+        const format = {
+          ...order,
+          ...products,
+        }
+
+        return format
+      }),
+    )
+
+    return reply.status(200).send(
+      JSON.stringify({
+        orders: ordersWithProducts,
+        currentPage,
+        totalOrders,
+        totalPages,
+      }),
+    )
   } catch (err) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(400).send({ message: err.message })

@@ -67,22 +67,24 @@ describe('Get a many orders (E2E)', () => {
       })
       .set('Authorization', `Bearer ${token}`)
 
-    const orderResponse = await request(app.server)
+    const ordersResponse = await request(app.server)
       .get('/orders?page=1')
       .set('Authorization', `Bearer ${token}`)
       .send()
 
-    const orders = JSON.parse(orderResponse.text)
+    const { orders, totalOrders, totalPages, currentPage } = JSON.parse(
+      ordersResponse.text,
+    )
 
-    expect(orderResponse.statusCode).toEqual(200)
-    expect(orders).to.have.property('orders')
-    expect(orders.orders).to.be.an('array').with.lengthOf(2)
+    expect(ordersResponse.statusCode).toEqual(200)
+    expect(orders).toHaveLength(2)
+    expect(currentPage).toEqual(1)
+    expect(totalOrders).toEqual(2)
+    expect(totalPages).toEqual(1)
 
-    const orderItem = orders.orders[0]
-    expect(orderItem).to.have.property('id').that.is.a('number')
-    expect(orderItem).to.have.property('created_at').that.is.a('string')
-    expect(orderItem).to.have.property('method_payment_id').that.is.a('string')
-    expect(orderItem).to.have.property('payment_intent_id').that.is.a('string')
-    expect(orderItem).to.have.property('customer_id').that.is.a('number')
+    expect(orders).toEqual([
+      expect.objectContaining({ id: 1 }),
+      expect.objectContaining({ id: 2 }),
+    ])
   })
 })

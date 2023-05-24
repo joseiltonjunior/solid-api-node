@@ -1,5 +1,8 @@
-import { Order } from '@prisma/client'
-import { OrderRepository } from '@/repositories/orders-repository'
+// import { Order } from '@prisma/client'
+import {
+  OrderRepository,
+  OrdersPaginated,
+} from '@/repositories/orders-repository'
 import { NoOrderCustomerError } from './errors/no-order-customer-error'
 
 interface FetchOdersUseCaseRequest {
@@ -7,9 +10,7 @@ interface FetchOdersUseCaseRequest {
   page: number
 }
 
-interface FetchOrdersUseCaseResponse {
-  orders: Order[]
-}
+interface FetchOrdersUseCaseResponse extends OrdersPaginated {}
 
 export class FetchOrdersUseCase {
   constructor(private ordersRepository: OrderRepository) {}
@@ -18,17 +19,15 @@ export class FetchOrdersUseCase {
     clientId,
     page,
   }: FetchOdersUseCaseRequest): Promise<FetchOrdersUseCaseResponse> {
-    const orders = await this.ordersRepository.findManyByIdPaginated(
+    const orderResponse = await this.ordersRepository.findManyByIdPaginated(
       clientId,
       page,
     )
 
-    if (!orders) {
+    if (!orderResponse) {
       throw new NoOrderCustomerError()
     }
 
-    return {
-      orders,
-    }
+    return orderResponse
   }
 }

@@ -19,6 +19,13 @@ describe('Customer register (E2E)', () => {
       phone: '81999999995',
     })
 
+    const user = JSON.parse(response.text)
+
     expect(response.statusCode).toEqual(201)
+    expect(user).toEqual(
+      expect.objectContaining({
+        id: expect.any(Number),
+      }),
+    )
   })
 })
