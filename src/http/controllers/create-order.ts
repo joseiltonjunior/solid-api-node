@@ -11,7 +11,6 @@ export async function createOrder(
   reply: FastifyReply,
 ) {
   const createOrderBodySchema = z.object({
-    clientId: z.number(),
     methodPaymentId: z.string(),
     paymentIntentId: z.string(),
     listProducts: z
@@ -23,7 +22,7 @@ export async function createOrder(
       .array(),
   })
 
-  const { paymentIntentId, clientId, methodPaymentId, listProducts } =
+  const { paymentIntentId, methodPaymentId, listProducts } =
     createOrderBodySchema.parse(request.body)
 
   try {
@@ -32,7 +31,7 @@ export async function createOrder(
 
     const { order } = await createOrderUseCase.execute({
       methodPaymentId,
-      clientId,
+      clientId: Number(request.user.sub),
       paymentIntentId,
     })
 

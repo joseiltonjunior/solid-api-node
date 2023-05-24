@@ -12,18 +12,17 @@ export async function fetchOrders(
   reply: FastifyReply,
 ) {
   const fetchOrdersBodySchema = z.object({
-    clientId: z.string(),
     page: z.string(),
   })
 
-  const { clientId, page } = fetchOrdersBodySchema.parse(request.query)
+  const { page } = fetchOrdersBodySchema.parse(request.query)
 
   try {
     const fetchOrdersUseCase = makeFetchOrdersUseCase()
     // const fetchProductdUseCase = makeFetchProductsUseCase()
 
     const { orders } = await fetchOrdersUseCase.execute({
-      clientId: Number(clientId),
+      clientId: Number(request.user.sub),
       page: Number(page),
     })
 
