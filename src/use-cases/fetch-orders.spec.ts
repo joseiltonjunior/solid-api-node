@@ -4,12 +4,12 @@ import { FetchOrdersUseCase } from './fetch-orders'
 import { InMemoryOrdersRepository } from '@/repositories/in-memory/in-memory-orders-repository'
 
 let ordersRepository: InMemoryOrdersRepository
-let sut: FetchOrdersUseCase
+let fetchOrdersUseCase: FetchOrdersUseCase
 
 describe('Fetch Orders Use Case', () => {
   beforeEach(() => {
     ordersRepository = new InMemoryOrdersRepository()
-    sut = new FetchOrdersUseCase(ordersRepository)
+    fetchOrdersUseCase = new FetchOrdersUseCase(ordersRepository)
   })
 
   it('should be able to fetch orders', async () => {
@@ -25,7 +25,10 @@ describe('Fetch Orders Use Case', () => {
       payment_intent_id: 'pi2089322',
     })
 
-    const { orders } = await sut.execute({ clientId: 1, page: 1 })
+    const { orders } = await fetchOrdersUseCase.execute({
+      clientId: 1,
+      page: 1,
+    })
 
     expect(orders).toHaveLength(2)
     expect(orders).toEqual([
@@ -35,7 +38,7 @@ describe('Fetch Orders Use Case', () => {
   })
 
   it('should be able to fetch paginated orders', async () => {
-    for (let i = 1; i <= 22; i++) {
+    for (let i = 1; i <= 12; i++) {
       await ordersRepository.create({
         customer_id: 1,
         method_payment_id: 'card',
@@ -43,12 +46,18 @@ describe('Fetch Orders Use Case', () => {
       })
     }
 
-    const { orders } = await sut.execute({ clientId: 1, page: 2 })
+    const orderResponse = await fetchOrdersUseCase.execute({
+      clientId: 1,
+      page: 2,
+    })
 
-    expect(orders).toHaveLength(2)
-    expect(orders).toEqual([
-      expect.objectContaining({ payment_intent_id: 'payment21' }),
-      expect.objectContaining({ payment_intent_id: 'payment22' }),
+    expect(orderResponse.orders).toHaveLength(2)
+    expect(orderResponse.orders).toEqual([
+      expect.objectContaining({ payment_intent_id: 'payment11' }),
+      expect.objectContaining({ payment_intent_id: 'payment12' }),
     ])
+    expect(orderResponse.currentPage).toEqual(2)
+    expect(orderResponse.totalOrders).toEqual(12)
+    expect(orderResponse.totalPages).toEqual(2)
   })
 })

@@ -7,12 +7,14 @@ import { FetchCustomerProfileUseCase } from './fetch-customer-profile'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
 
 let customersRepository: InMemoryCustumerRepository
-let sut: FetchCustomerProfileUseCase
+let fetchCustomerProfileUseCase: FetchCustomerProfileUseCase
 
 describe('Fetch customer Profile Use Case', () => {
   beforeEach(() => {
     customersRepository = new InMemoryCustumerRepository()
-    sut = new FetchCustomerProfileUseCase(customersRepository)
+    fetchCustomerProfileUseCase = new FetchCustomerProfileUseCase(
+      customersRepository,
+    )
   })
 
   it('should be able to customer profile', async () => {
@@ -24,7 +26,7 @@ describe('Fetch customer Profile Use Case', () => {
       customer_id: 'user1',
     })
 
-    const { customer } = await sut.execute({
+    const { customer } = await fetchCustomerProfileUseCase.execute({
       id: createdCustomer.id,
     })
 
@@ -34,7 +36,7 @@ describe('Fetch customer Profile Use Case', () => {
 
   it('should not be able to get customer profile with wrong id', async () => {
     expect(() =>
-      sut.execute({
+      fetchCustomerProfileUseCase.execute({
         id: 999,
       }),
     ).rejects.toBeInstanceOf(ResourceNotFoundError)

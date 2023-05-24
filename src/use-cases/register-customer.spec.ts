@@ -5,16 +5,16 @@ import { InMemoryCustumerRepository } from '@/repositories/in-memory/in-memory-c
 import { CustomerAlreadyExistsError } from './errors/customer-already-exists-error'
 
 let customersRepository: InMemoryCustumerRepository
-let sut: RegisterCustomerUseCase
+let registerCustomerUseCase: RegisterCustomerUseCase
 
 describe('Customer Register Use Case', () => {
   beforeEach(() => {
     customersRepository = new InMemoryCustumerRepository()
-    sut = new RegisterCustomerUseCase(customersRepository)
+    registerCustomerUseCase = new RegisterCustomerUseCase(customersRepository)
   })
 
   it('should be able to register', async () => {
-    const { user } = await sut.execute({
+    const { user } = await registerCustomerUseCase.execute({
       name: 'Junior Ferreira',
       email: 'junior.teste@gmail.com',
       password: '123456',
@@ -26,7 +26,7 @@ describe('Customer Register Use Case', () => {
   })
 
   it('should hash user password upon registration', async () => {
-    const { user } = await sut.execute({
+    const { user } = await registerCustomerUseCase.execute({
       name: 'Junior Ferreira',
       email: 'junior.teste@gmail.com',
       password: '123456',
@@ -45,7 +45,7 @@ describe('Customer Register Use Case', () => {
   it('should not be able to register with same email twice', async () => {
     const email = 'junior.teste@gmail.com'
 
-    await sut.execute({
+    await registerCustomerUseCase.execute({
       name: 'Junior Ferreira',
       email,
       password: '123456',
@@ -54,7 +54,7 @@ describe('Customer Register Use Case', () => {
     })
 
     expect(() =>
-      sut.execute({
+      registerCustomerUseCase.execute({
         name: 'Junior Ferreira',
         email,
         password: '123456',
@@ -67,7 +67,7 @@ describe('Customer Register Use Case', () => {
   it('should not be able to register with same phone twice', async () => {
     const phone = '81999999999'
 
-    await sut.execute({
+    await registerCustomerUseCase.execute({
       name: 'Junior Ferreira',
       email: 'junior.teste@gmail.com',
       password: '123456',
@@ -76,7 +76,7 @@ describe('Customer Register Use Case', () => {
     })
 
     expect(() =>
-      sut.execute({
+      registerCustomerUseCase.execute({
         name: 'Junior Ferreira',
         email: 'junior.teste2@gmail.com',
         password: '123456',
@@ -89,7 +89,7 @@ describe('Customer Register Use Case', () => {
   it('should not be able to register with same customer ID twice', async () => {
     const customerId = 'customer01'
 
-    await sut.execute({
+    await registerCustomerUseCase.execute({
       name: 'Junior Ferreira',
       email: 'junior.teste@gmail.com',
       password: '123456',
@@ -98,7 +98,7 @@ describe('Customer Register Use Case', () => {
     })
 
     expect(() =>
-      sut.execute({
+      registerCustomerUseCase.execute({
         name: 'Junior Ferreira',
         email: 'junior.teste2@gmail.com',
         password: '123456',

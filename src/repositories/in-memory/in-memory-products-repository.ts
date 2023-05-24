@@ -4,6 +4,18 @@ import { ProductRepository } from '../products-repository'
 export class InMemoryProductsRepository implements ProductRepository {
   public items: Product[] = []
 
+  async findManyProductsByOrderId(orderId: number): Promise<Product[] | null> {
+    const products = this.items.filter(
+      (product) => product.order_id === orderId,
+    )
+
+    if (!products) {
+      return null
+    }
+
+    return products
+  }
+
   async create(data: Prisma.ProductUncheckedCreateInput): Promise<Product> {
     const product = {
       id: 1,

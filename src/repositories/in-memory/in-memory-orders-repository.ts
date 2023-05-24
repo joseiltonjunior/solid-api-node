@@ -1,5 +1,5 @@
 import { Order, Prisma } from '@prisma/client'
-import { OrderRepository } from '../orders-repository'
+import { OrderRepository, OrdersPaginated } from '../orders-repository'
 
 export class InMemoryOrdersRepository implements OrderRepository {
   public items: Order[] = []
@@ -7,16 +7,21 @@ export class InMemoryOrdersRepository implements OrderRepository {
   async findManyByIdPaginated(
     clientId: number,
     page: number,
-  ): Promise<Order[] | null> {
+  ): Promise<OrdersPaginated | null> {
     const orders = this.items
       .filter((item) => item.customer_id === clientId)
-      .slice((page - 1) * 20, page * 20)
+      .slice((page - 1) * 10, page * 10)
 
     if (!orders) {
       return null
     }
 
-    return orders
+    return {
+      orders,
+      currentPage: page,
+      totalOrders: this.items.length,
+      totalPages: Math.ceil(this.items.length / 10),
+    }
   }
 
   async findById(id: string): Promise<Order | null> {
