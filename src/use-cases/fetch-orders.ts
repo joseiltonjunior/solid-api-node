@@ -1,9 +1,8 @@
-// import { Order } from '@prisma/client'
 import {
   OrderRepository,
   OrdersPaginated,
 } from '@/repositories/orders-repository'
-import { NoOrderCustomerError } from './errors/no-order-customer-error'
+import { ResourceNotFoundError } from './errors/resource-not-found-error'
 
 interface FetchOdersUseCaseRequest {
   clientId: number
@@ -25,7 +24,7 @@ export class FetchOrdersUseCase {
     )
 
     if (!orderResponse) {
-      throw new NoOrderCustomerError()
+      throw new ResourceNotFoundError()
     }
 
     return orderResponse

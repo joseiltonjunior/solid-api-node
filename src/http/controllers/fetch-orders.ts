@@ -4,8 +4,10 @@ import { z } from 'zod'
 
 import { makeFetchOrdersUseCase } from '@/use-cases/factories/make-fetch-orders-use-case'
 import { ResourceNotFoundError } from '@/use-cases/errors/resource-not-found-error'
-import { NoOrderCustomerError } from '@/use-cases/errors/no-order-customer-error'
+
 import { makeFetchProductsUseCase } from '@/use-cases/factories/make-fetch-products-use-case'
+import { makeFetchCustomerProfileUseCase } from '@/use-cases/factories/make-fetch-customer-profile-use-case'
+import { CustomerNotExistsError } from '@/use-cases/errors/customer-not-exists'
 
 export async function fetchOrders(
   request: FastifyRequest,
@@ -20,6 +22,11 @@ export async function fetchOrders(
   try {
     const fetchOrdersUseCase = makeFetchOrdersUseCase()
     const fetchProductdUseCase = makeFetchProductsUseCase()
+    const fetchCustomerProfileUseCase = makeFetchCustomerProfileUseCase()
+
+    await fetchCustomerProfileUseCase.execute({
+      id: Number(request.user.sub),
+    })
 
     const { currentPage, orders, totalOrders, totalPages } =
       await fetchOrdersUseCase.execute({
@@ -52,11 +59,11 @@ export async function fetchOrders(
     )
   } catch (err) {
     if (err instanceof ResourceNotFoundError) {
-      return reply.status(400).send({ message: err.message })
+      return reply.status(404).send({ message: err.message })
     }
 
-    if (err instanceof NoOrderCustomerError) {
-      return reply.status(200).send({ message: err.message })
+    if (err instanceof CustomerNotExistsError) {
+      return reply.status(404).send({ message: err.message })
     }
 
     throw err
