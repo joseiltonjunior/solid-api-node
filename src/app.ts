@@ -1,5 +1,7 @@
 import fastify from 'fastify'
-import { appRoutes } from './http/routes'
+import { customersRoutes } from './http/controllers/customers/routes'
+import { ordersRoutes } from './http/controllers/orders/routes'
+import { addressesRoutes } from './http/controllers/addresses/routes'
 import { ZodError } from 'zod'
 import { env } from './env'
 import fastifyJwt from '@fastify/jwt'
@@ -10,7 +12,9 @@ app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
 })
 
-app.register(appRoutes)
+app.register(customersRoutes)
+app.register(ordersRoutes)
+app.register(addressesRoutes)
 
 app.setErrorHandler((error, _request, reply) => {
   if (error instanceof ZodError) {
