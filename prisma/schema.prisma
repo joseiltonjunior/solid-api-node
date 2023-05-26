@@ -54,12 +54,14 @@ model Product {
 model Address {
   id         Int      @id @default(autoincrement())
   created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
   street     String
   country    String
   state      String
   number     String
   zip_code   String
   complement String
+  city       String
 
   customer    Customer @relation(fields: [customer_id], references: [id])
   customer_id Int      @unique

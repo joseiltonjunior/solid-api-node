@@ -21,6 +21,7 @@ describe('Add a Customer Address Use Case', () => {
       number: '123',
       zipCode: '12345-123',
       complement: 'casa',
+      city: 'São Paulo',
       customerId: 1,
     })
 

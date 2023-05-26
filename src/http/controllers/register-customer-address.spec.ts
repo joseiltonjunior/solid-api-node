@@ -31,6 +31,7 @@ describe('Register customer address (E2E)', () => {
         country: 'Brazil',
         state: 'São Paulo',
         number: '123',
+        city: 'São Paulo',
         zipCode: '12345-123',
         complement: 'casa',
       })

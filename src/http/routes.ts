@@ -6,6 +6,7 @@ import { createOrder } from './controllers/create-order'
 import { fetchOrders } from './controllers/fetch-orders'
 import { registerCustomerAddress } from './controllers/register-customer-address'
 import { fetchCustomerAddress } from './controllers/fetch-customer-address'
+import { editCustomerAddress } from './controllers/edit-customer-address'
 import { verifyJWT } from './middlewares/verify-jwt'
 
 export async function appRoutes(app: FastifyInstance) {
@@ -21,4 +22,5 @@ export async function appRoutes(app: FastifyInstance) {
 
   app.post('/addresses', { onRequest: [verifyJWT] }, registerCustomerAddress)
   app.get('/addresses', { onRequest: [verifyJWT] }, fetchCustomerAddress)
+  app.put('/addresses', { onRequest: [verifyJWT] }, editCustomerAddress)
 }

@@ -2,10 +2,10 @@ import { PrismaAddressesRepository } from '@/repositories/prisma/prisma-addresse
 import { RegisterCustomerAddressUseCase } from '../register-customer-address'
 
 export function makeRegisterCustomerAddressUseCase() {
-  const prismaCustomerRepository = new PrismaAddressesRepository()
-  const registerCustomerUseCase = new RegisterCustomerAddressUseCase(
-    prismaCustomerRepository,
+  const prismaCustomerAddressRepository = new PrismaAddressesRepository()
+  const registerCustomerAddressUseCase = new RegisterCustomerAddressUseCase(
+    prismaCustomerAddressRepository,
   )
 
-  return registerCustomerUseCase
+  return registerCustomerAddressUseCase
 }
