@@ -1,7 +1,7 @@
 import { CustomerRepository } from '@/repositories/customers-repository'
 
 import { hash } from 'bcryptjs'
-import { CustomerAlreadyExistsError } from './errors/customer-already-exists-error'
+import { CustomerAlreadyExistsError } from '../errors/customer-already-exists-error'
 
 import { Customer } from '@prisma/client'
 

@@ -1,5 +1,5 @@
 import { PrismaCustomersRepository } from '@/repositories/prisma/prisma-customers-repository'
-import { FetchCustomerProfileUseCase } from '../fetch-customer-profile'
+import { FetchCustomerProfileUseCase } from '@/use-cases/customers/fetch-customer-profile'
 
 export function makeFetchCustomerProfileUseCase() {
   const prismaCustomerRepository = new PrismaCustomersRepository()

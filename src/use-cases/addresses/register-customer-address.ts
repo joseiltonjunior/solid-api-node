@@ -1,10 +1,9 @@
 import { AddressRepository } from '@/repositories/addresses-repository'
 
 import { Address } from '@prisma/client'
+import { AddressAlreadyExistsError } from '../errors/address-already-exists-error'
 
-import { ResourceNotFoundError } from './errors/resource-not-found-error'
-
-interface EditCustomerAddressUseCaseRequest {
+interface RegisterCustomerAddressUseCaseRequest {
   street: string
   country: string
   state: string
@@ -15,11 +14,11 @@ interface EditCustomerAddressUseCaseRequest {
   customerId: number
 }
 
-interface EditCustomerAddressUseCaseResponse {
+interface RegisterCustomerAddressUseCaseResponse {
   address: Address
 }
 
-export class EditCustomerAddressUseCase {
+export class RegisterCustomerAddressUseCase {
   constructor(private addressesRepository: AddressRepository) {}
 
   async execute({
@@ -28,19 +27,19 @@ export class EditCustomerAddressUseCase {
     number,
     state,
     street,
-    zipCode,
     city,
+    zipCode,
     customerId,
-  }: EditCustomerAddressUseCaseRequest): Promise<EditCustomerAddressUseCaseResponse> {
+  }: RegisterCustomerAddressUseCaseRequest): Promise<RegisterCustomerAddressUseCaseResponse> {
     const addressExists = await this.addressesRepository.findByCustomerId(
       customerId,
     )
 
-    if (!addressExists) {
-      throw new ResourceNotFoundError()
+    if (addressExists) {
+      throw new AddressAlreadyExistsError()
     }
 
-    const address = await this.addressesRepository.edit({
+    const address = await this.addressesRepository.create({
       complement,
       country,
       number,

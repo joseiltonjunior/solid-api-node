@@ -2,7 +2,7 @@ import {
   OrderRepository,
   OrdersPaginated,
 } from '@/repositories/orders-repository'
-import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { ResourceNotFoundError } from '../errors/resource-not-found-error'
 
 interface FetchOdersUseCaseRequest {
   clientId: number

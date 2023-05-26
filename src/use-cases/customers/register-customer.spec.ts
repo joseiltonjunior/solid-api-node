@@ -2,7 +2,7 @@ import { RegisterCustomerUseCase } from './register-customer'
 import { describe, it, expect, beforeEach } from 'vitest'
 import { compare } from 'bcryptjs'
 import { InMemoryCustumerRepository } from '@/repositories/in-memory/in-memory-customers-repository'
-import { CustomerAlreadyExistsError } from './errors/customer-already-exists-error'
+import { CustomerAlreadyExistsError } from '../errors/customer-already-exists-error'
 
 let customersRepository: InMemoryCustumerRepository
 let registerCustomerUseCase: RegisterCustomerUseCase

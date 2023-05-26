@@ -1,6 +1,6 @@
 import { Order } from '@prisma/client'
 import { OrderRepository } from '@/repositories/orders-repository'
-import { OrderAlreadyExistsError } from './errors/order-already-exists-error'
+import { OrderAlreadyExistsError } from '../errors/order-already-exists-error'
 
 interface OrderUseCaseRequest {
   paymentIntentId: string

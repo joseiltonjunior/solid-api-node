@@ -1,5 +1,5 @@
 import { PrismaAddressesRepository } from '@/repositories/prisma/prisma-addresses-repository'
-import { EditCustomerAddressUseCase } from '../edit-customer-address'
+import { EditCustomerAddressUseCase } from '@/use-cases/addresses/edit-customer-address'
 
 export function makeEditCustomerAddressUseCase() {
   const prismaCustomerAddressRepository = new PrismaAddressesRepository()

@@ -1,5 +1,5 @@
 import { PrismaAddressesRepository } from '@/repositories/prisma/prisma-addresses-repository'
-import { FetchCustomerAddressUseCase } from '../fetch-customer-address'
+import { FetchCustomerAddressUseCase } from '@/use-cases/addresses/fetch-customer-address'
 
 export function makeFetchCustomerAddressUseCase() {
   const prismaCustomerRepository = new PrismaAddressesRepository()

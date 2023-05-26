@@ -44,7 +44,7 @@ describe('Fetch customer address (E2E)', () => {
 
     const address = JSON.parse(response.text)
 
-    expect(response.statusCode).toEqual(201)
+    expect(response.statusCode).toEqual(200)
     expect(address).toEqual(
       expect.objectContaining({
         id: expect.any(Number),

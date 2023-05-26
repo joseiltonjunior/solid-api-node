@@ -21,7 +21,7 @@ export async function fetchCustomerAddress(
       customerId: Number(request.user.sub),
     })
 
-    return reply.status(201).send(JSON.stringify(address))
+    return reply.status(200).send(JSON.stringify(address))
   } catch (err) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })

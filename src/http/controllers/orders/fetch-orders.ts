@@ -8,6 +8,7 @@ import { ResourceNotFoundError } from '@/use-cases/errors/resource-not-found-err
 import { makeFetchProductsUseCase } from '@/use-cases/factories/make-fetch-products-use-case'
 import { makeFetchCustomerProfileUseCase } from '@/use-cases/factories/make-fetch-customer-profile-use-case'
 import { CustomerNotExistsError } from '@/use-cases/errors/customer-not-exists'
+import { Order } from '@prisma/client'
 
 export async function fetchOrders(
   request: FastifyRequest,
@@ -35,7 +36,7 @@ export async function fetchOrders(
       })
 
     const ordersWithProducts = await Promise.all(
-      orders.map(async (order) => {
+      orders.map(async (order: Order) => {
         const products = await fetchProductdUseCase.execute({
           orderId: order.id,
         })

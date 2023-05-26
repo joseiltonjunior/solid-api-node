@@ -2,7 +2,7 @@ import { CustomerRepository } from '@/repositories/customers-repository'
 
 import { Customer } from '@prisma/client'
 
-import { CustomerNotExistsError } from './errors/customer-not-exists'
+import { CustomerNotExistsError } from '../errors/customer-not-exists'
 
 interface FetchCustomerProfileUseCaseRequest {
   id: number

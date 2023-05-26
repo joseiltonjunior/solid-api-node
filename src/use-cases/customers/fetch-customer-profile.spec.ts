@@ -4,7 +4,7 @@ import { InMemoryCustumerRepository } from '@/repositories/in-memory/in-memory-c
 
 import { hash } from 'bcryptjs'
 import { FetchCustomerProfileUseCase } from './fetch-customer-profile'
-import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { CustomerNotExistsError } from '../errors/customer-not-exists'
 
 let customersRepository: InMemoryCustumerRepository
 let fetchCustomerProfileUseCase: FetchCustomerProfileUseCase
@@ -39,6 +39,6 @@ describe('Fetch customer Profile Use Case', () => {
       fetchCustomerProfileUseCase.execute({
         id: 999,
       }),
-    ).rejects.toBeInstanceOf(ResourceNotFoundError)
+    ).rejects.toBeInstanceOf(CustomerNotExistsError)
   })
 })

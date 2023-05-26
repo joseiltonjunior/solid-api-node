@@ -1,5 +1,5 @@
 import { PrismaProductsRepository } from '@/repositories/prisma/prisma-products-repository'
-import { FetchProductsUseCase } from '../fetch-products'
+import { FetchProductsUseCase } from '@/use-cases/orders/fetch-products'
 
 export function makeFetchProductsUseCase() {
   const prismaProductRepository = new PrismaProductsRepository()

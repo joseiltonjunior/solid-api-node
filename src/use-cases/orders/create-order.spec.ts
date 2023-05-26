@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { InMemoryOrdersRepository } from '@/repositories/in-memory/in-memory-orders-repository'
 import { CreateOrderUseCase } from './create-order'
-import { OrderAlreadyExistsError } from './errors/order-already-exists-error'
+import { OrderAlreadyExistsError } from '../errors/order-already-exists-error'
 
 let ordersRepository: InMemoryOrdersRepository
 let createOrderUseCase: CreateOrderUseCase
