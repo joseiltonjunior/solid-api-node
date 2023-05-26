@@ -5,12 +5,15 @@ export class InMemoryAddressesRepository implements AddressRepository {
   public items: Address[] = []
 
   async edit(data: Prisma.AddressUncheckedUpdateInput): Promise<Address> {
-    this.items.filter((address) => address.customer_id !== data.customer_id)
+    const address = this.items.find(
+      (address) => address.customer_id !== data.customer_id,
+    ) as Address
+    const index = this.items.findIndex(
+      (address) => address.customer_id === data.customer_id,
+    )
 
-    const address = {
-      id: 1,
-      created_at: new Date(),
-      updated_at: new Date(),
+    const addressEdit = {
+      ...address,
       street: data.street as string,
       country: data.country as string,
       city: data.city as string,
@@ -18,12 +21,13 @@ export class InMemoryAddressesRepository implements AddressRepository {
       number: data.number as string,
       zip_code: data.zip_code as string,
       complement: data.complement as string,
-      customer_id: data.customer_id as number,
     }
 
-    this.items.push(address)
+    if (index !== -1) {
+      this.items.splice(index, 1, addressEdit)
+    }
 
-    return address
+    return addressEdit
   }
 
   async findByCustomerId(id: number): Promise<Address | null> {

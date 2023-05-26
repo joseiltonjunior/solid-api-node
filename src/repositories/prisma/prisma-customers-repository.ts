@@ -3,6 +3,15 @@ import { Prisma, Customer } from '@prisma/client'
 import { CustomerRepository } from '../customers-repository'
 
 export class PrismaCustomersRepository implements CustomerRepository {
+  async edit(data: Prisma.CustomerUncheckedUpdateInput): Promise<Customer> {
+    const user = await prisma.customer.update({
+      where: { id: data.id as number },
+      data,
+    })
+
+    return user
+  }
+
   async findByCustomerId(customerId: string): Promise<Customer | null> {
     const customer = await prisma.customer.findFirst({
       where: {

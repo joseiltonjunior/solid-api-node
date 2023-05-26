@@ -18,6 +18,7 @@ model Customer {
   password_hash String
   phone         String   @unique
   created_at    DateTime @default(now())
+  updated_at    DateTime @default(now()) @updatedAt
 
   orders  Order[]
   address Address?

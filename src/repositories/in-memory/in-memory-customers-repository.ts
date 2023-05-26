@@ -3,6 +3,28 @@ import { CustomerRepository } from '../customers-repository'
 
 export class InMemoryCustumerRepository implements CustomerRepository {
   public items: Customer[] = []
+  async edit(data: Prisma.CustomerUncheckedUpdateInput): Promise<Customer> {
+    const customer = this.items.find(
+      (customer) => customer.customer_id === data.customer_id,
+    ) as Customer
+
+    const index = this.items.findIndex(
+      (customer) => customer.customer_id === data.customer_id,
+    )
+
+    const customerEdit = {
+      ...customer,
+      name: data.name as string,
+      email: data.email as string,
+      phone: data.phone as string,
+    }
+
+    if (index !== -1) {
+      this.items.splice(index, 1, customerEdit)
+    }
+
+    return customerEdit
+  }
 
   async findByCustomerId(customerId: string): Promise<Customer | null> {
     const customer = this.items.find((item) => item.customer_id === customerId)
@@ -52,6 +74,7 @@ export class InMemoryCustumerRepository implements CustomerRepository {
       email: data.email,
       password_hash: data.password_hash,
       created_at: new Date(),
+      updated_at: new Date(),
       phone: data.phone,
     }
 

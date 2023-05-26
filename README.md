@@ -5,7 +5,7 @@ Node API Solid PostgreSQL
 ## RFs (Requisitos funcionais)
 
 - [x] Deve ser possível se cadastrar;
-- [ ] Deve ser possível editar um cliente;
+- [x] Deve ser possível editar um cliente;
 - [x] Deve ser possível buscar cliente;
 - [x] Deve ser possível se autenticar;
 - [x] Deve ser possível obter o perfil de um cliente logado;
@@ -27,6 +27,7 @@ Node API Solid PostgreSQL
 - [x] Os dados da aplicação precisam estar persistidos em um banco PostgreSQL;
 - [x] Todas listas de dados precisam estar paginadas com 10 itens por página;
 - [x] O cliente deve ser identificado por um JWT (JSON Web Token);
+- [ ] o Token do cliente deve ter validade x min;
 - [ ] Deve haver a documentação da API(Swagger), com todas rotas e com exemplos práticos;
 - [x] Métodos POST não devem poder substituir informações já cadastradas;
 - [x] Métodos PUT não devem poder criar uma inforção;

@@ -15,7 +15,7 @@ export async function registerCustomer(
     email: z.string().email(),
     password: z.string().min(6),
     customerId: z.string(),
-    phone: z.string().min(11),
+    phone: z.string().min(11).max(11),
   })
 
   const { email, name, password, customerId, phone } = registerBodySchema.parse(

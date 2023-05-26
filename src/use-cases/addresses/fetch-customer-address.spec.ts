@@ -21,6 +21,7 @@ describe('Get Customer Address Use Case', () => {
       country: 'Brazil',
       state: 'São Paulo',
       number: '123',
+      city: 'São Paulo',
       zip_code: '12345-123',
       complement: 'casa',
       customer_id: customerId,

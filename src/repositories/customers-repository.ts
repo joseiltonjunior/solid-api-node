@@ -6,4 +6,5 @@ export interface CustomerRepository {
   findByCustomerId(customerId: string): Promise<Customer | null>
   findByEmail(email: string): Promise<Customer | null>
   create(data: Prisma.CustomerCreateInput): Promise<Customer>
+  edit(data: Prisma.CustomerUncheckedUpdateInput): Promise<Customer>
 }
