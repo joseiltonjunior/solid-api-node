@@ -5,33 +5,35 @@ Node API Solid PostgreSQL
 ## RFs (Requisitos funcionais)
 
 - [x] Deve ser possível se cadastrar;
-- [x] Deve ser possível editar um cliente;
-- [x] Deve ser possível buscar cliente;
+- [x] Deve ser possível editar um usuário;
+- [x] Deve ser possível buscar usuário;
 - [x] Deve ser possível se autenticar;
-- [x] Deve ser possível obter o perfil de um cliente logado;
-- [x] Deve ser possível cadastrar o endereço de um cliente
+- [x] Deve ser possível obter o perfil de um usuário logado;
+- [x] Deve ser possível cadastrar o endereço de um usuário
 - [x] Deve ser possível alterar um endereço cadastrado;
-- [x] Deve ser possível cadastrar a compra de um cliente;
-- [x] Deve ser possível obter as compras de um cliente;
+- [x] Deve ser possível cadastrar a compra de um usuário;
+- [x] Deve ser possível obter as compras de um usuário;
 
 ## RNs (Regras de negócio)
 
-- [x] O cliente não deve poder se cadastrar com um e-mail duplicado;
-- [x] O cliente não deve poder se cadastrar com um telefone duplicado;
-- [x] O cliente não deve poder se cadastrar com o customer_id(Stripe) duplicado;
+- [x] O usuário não deve poder se cadastrar com um e-mail duplicado;
+- [x] O usuário não deve poder se cadastrar com um telefone duplicado;
+- [x] O usuário não deve poder se cadastrar com o customer_id(Stripe) duplicado;
 
 
 ## RNFs (Requisitos não-funcionais)
 
-- [x] A senha do cliente precisa estar criptografada;
+- [x] A senha do usuário precisa estar criptografada;
 - [x] Os dados da aplicação precisam estar persistidos em um banco PostgreSQL;
 - [x] Todas listas de dados precisam estar paginadas com 10 itens por página;
-- [x] O cliente deve ser identificado por um JWT (JSON Web Token);
-- [ ] o Token do cliente deve ter validade x min;
+- [x] O usuário deve ser identificado por um JWT (JSON Web Token);
+- [x] o Token do usuário deve ter validade 10 min;
+- [x] Deve haver uma rota para atualizar o token (Refresh Token)
+- [ ] Deve se haver hierarquia de usuários (Customers | Admins)
 - [ ] Deve haver a documentação da API(Swagger), com todas rotas e com exemplos práticos;
 - [x] Métodos POST não devem poder substituir informações já cadastradas;
 - [x] Métodos PUT não devem poder criar uma inforção;
-- [x] Exceto as rotas de criar e autenticar clientes, todas outras devem ser autenticadas;
+- [x] Exceto as rotas de criar e autenticar usuários, todas outras devem ser autenticadas;
 
 <br/>
 
