@@ -5,7 +5,7 @@ import {
 import { ResourceNotFoundError } from '../errors/resource-not-found-error'
 
 interface FetchOdersUseCaseRequest {
-  clientId: number
+  clientId: string
   page: number
 }
 

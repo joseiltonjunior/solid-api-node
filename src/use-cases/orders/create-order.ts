@@ -4,7 +4,7 @@ import { OrderAlreadyExistsError } from '../errors/order-already-exists-error'
 
 interface OrderUseCaseRequest {
   paymentIntentId: string
-  clientId: number
+  clientId: string
   methodPaymentId: string
 }
 
@@ -30,7 +30,7 @@ export class CreateOrderUseCase {
 
     const order = await this.ordersRepository.create({
       method_payment_id: methodPaymentId,
-      customer_id: clientId,
+      user_id: clientId,
       payment_intent_id: paymentIntentId,
     })
 

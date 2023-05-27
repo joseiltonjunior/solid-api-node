@@ -12,7 +12,7 @@ describe('Get a many orders (E2E)', () => {
   })
 
   it('should be able to get a many orders', async () => {
-    await request(app.server).post('/customers').send({
+    await request(app.server).post('/users').send({
       name: 'Junior Ferreira',
       email: 'junior@teste.com',
       password: '123456',

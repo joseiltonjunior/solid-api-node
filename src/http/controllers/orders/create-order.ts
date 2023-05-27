@@ -6,8 +6,8 @@ import { makeCreateOrderUseCase } from '@/use-cases/factories/make-create-order-
 import { makeAddProductUseCase } from '@/use-cases/factories/make-add-product-use-case'
 import { OrderAlreadyExistsError } from '@/use-cases/errors/order-already-exists-error'
 
-import { makeFetchCustomerProfileUseCase } from '@/use-cases/factories/make-fetch-customer-profile-use-case'
-import { CustomerNotExistsError } from '@/use-cases/errors/customer-not-exists'
+import { makeFetchUserProfileUseCase } from '@/use-cases/factories/make-fetch-user-profile-use-case'
+import { UserNotExistsError } from '@/use-cases/errors/user-not-exists'
 
 export async function createOrder(
   request: FastifyRequest,
@@ -31,15 +31,15 @@ export async function createOrder(
   try {
     const createOrderUseCase = makeCreateOrderUseCase()
     const addProductUseCase = makeAddProductUseCase()
-    const fetchCustomerProfileUseCase = makeFetchCustomerProfileUseCase()
+    const fetchUserProfileUseCase = makeFetchUserProfileUseCase()
 
-    await fetchCustomerProfileUseCase.execute({
-      id: Number(request.user.sub),
+    await fetchUserProfileUseCase.execute({
+      id: request.user.sub,
     })
 
     const { order } = await createOrderUseCase.execute({
       methodPaymentId,
-      clientId: Number(request.user.sub),
+      clientId: request.user.sub,
       paymentIntentId,
     })
 
@@ -54,7 +54,7 @@ export async function createOrder(
       return reply.status(409).send({ message: err.message })
     }
 
-    if (err instanceof CustomerNotExistsError) {
+    if (err instanceof UserNotExistsError) {
       return reply.status(404).send({ message: err.message })
     }
 

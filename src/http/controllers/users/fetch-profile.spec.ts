@@ -3,7 +3,7 @@ import request from 'supertest'
 
 import { app } from '@/app'
 
-describe('Make an order (E2E)', () => {
+describe('Get profile customer (E2E)', () => {
   beforeAll(async () => {
     await app.ready()
   })
@@ -11,7 +11,7 @@ describe('Make an order (E2E)', () => {
     await app.close()
   })
 
-  it('should be able to make an order', async () => {
+  it('slould be able get customer profile', async () => {
     await request(app.server).post('/users').send({
       name: 'Junior Ferreira',
       email: 'junior@teste.com',
@@ -27,32 +27,17 @@ describe('Make an order (E2E)', () => {
 
     const { token } = authResponse.body
 
-    const orderResponse = await request(app.server)
-      .post('/orders')
-      .send({
-        methodPaymentId: 'card',
-        paymentIntentId: 'deu booom',
-        listProducts: [
-          {
-            priceId: 'prod212',
-            quantity: 2,
-            imgUrl: 'img01',
-          },
-          {
-            priceId: 'prod221',
-            quantity: 1,
-            imgUrl: 'img01',
-          },
-        ],
-      })
+    const profileResponse = await request(app.server)
+      .get('/me')
       .set('Authorization', `Bearer ${token}`)
+      .send()
 
-    const order = JSON.parse(orderResponse.text)
+    const profileUser = JSON.parse(profileResponse.text)
 
-    expect(orderResponse.statusCode).toEqual(201)
-    expect(order).toEqual(
+    expect(profileResponse.statusCode).toEqual(200)
+    expect(profileUser).toEqual(
       expect.objectContaining({
-        id: expect.any(Number),
+        email: 'junior@teste.com',
       }),
     )
   })

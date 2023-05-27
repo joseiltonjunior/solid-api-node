@@ -6,8 +6,8 @@ import { makeFetchOrdersUseCase } from '@/use-cases/factories/make-fetch-orders-
 import { ResourceNotFoundError } from '@/use-cases/errors/resource-not-found-error'
 
 import { makeFetchProductsUseCase } from '@/use-cases/factories/make-fetch-products-use-case'
-import { makeFetchCustomerProfileUseCase } from '@/use-cases/factories/make-fetch-customer-profile-use-case'
-import { CustomerNotExistsError } from '@/use-cases/errors/customer-not-exists'
+import { makeFetchUserProfileUseCase } from '@/use-cases/factories/make-fetch-user-profile-use-case'
+import { UserNotExistsError } from '@/use-cases/errors/user-not-exists'
 import { Order } from '@prisma/client'
 
 export async function fetchOrders(
@@ -23,15 +23,15 @@ export async function fetchOrders(
   try {
     const fetchOrdersUseCase = makeFetchOrdersUseCase()
     const fetchProductdUseCase = makeFetchProductsUseCase()
-    const fetchCustomerProfileUseCase = makeFetchCustomerProfileUseCase()
+    const fetchUserProfileUseCase = makeFetchUserProfileUseCase()
 
-    await fetchCustomerProfileUseCase.execute({
-      id: Number(request.user.sub),
+    await fetchUserProfileUseCase.execute({
+      id: request.user.sub,
     })
 
     const { currentPage, orders, totalOrders, totalPages } =
       await fetchOrdersUseCase.execute({
-        clientId: Number(request.user.sub),
+        clientId: request.user.sub,
         page: Number(page),
       })
 
@@ -63,7 +63,7 @@ export async function fetchOrders(
       return reply.status(404).send({ message: err.message })
     }
 
-    if (err instanceof CustomerNotExistsError) {
+    if (err instanceof UserNotExistsError) {
       return reply.status(404).send({ message: err.message })
     }
 

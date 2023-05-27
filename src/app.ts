@@ -1,5 +1,5 @@
 import fastify from 'fastify'
-import { customersRoutes } from './http/controllers/customers/routes'
+import { usersRoutes } from './http/controllers/users/routes'
 import { ordersRoutes } from './http/controllers/orders/routes'
 import { addressesRoutes } from './http/controllers/addresses/routes'
 import { ZodError } from 'zod'
@@ -22,7 +22,7 @@ app.register(fastifyJwt, {
 
 app.register(fastifyCookie)
 
-app.register(customersRoutes)
+app.register(usersRoutes)
 app.register(ordersRoutes)
 app.register(addressesRoutes)
 

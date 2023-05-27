@@ -6,10 +6,10 @@ export class InMemoryAddressesRepository implements AddressRepository {
 
   async edit(data: Prisma.AddressUncheckedUpdateInput): Promise<Address> {
     const address = this.items.find(
-      (address) => address.customer_id !== data.customer_id,
+      (address) => address.user_id !== data.user_id,
     ) as Address
     const index = this.items.findIndex(
-      (address) => address.customer_id === data.customer_id,
+      (address) => address.user_id === data.user_id,
     )
 
     const addressEdit = {
@@ -30,8 +30,8 @@ export class InMemoryAddressesRepository implements AddressRepository {
     return addressEdit
   }
 
-  async findByCustomerId(id: number): Promise<Address | null> {
-    const address = this.items.find((item) => item.customer_id === id)
+  async findByUserId(id: string): Promise<Address | null> {
+    const address = this.items.find((item) => item.user_id === id)
 
     if (!address) {
       return null
@@ -52,7 +52,7 @@ export class InMemoryAddressesRepository implements AddressRepository {
       number: data.number,
       zip_code: data.zip_code,
       complement: data.complement,
-      customer_id: data.customer_id,
+      user_id: data.user_id,
     }
 
     this.items.push(address)

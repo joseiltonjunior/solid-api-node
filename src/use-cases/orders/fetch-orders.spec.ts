@@ -14,19 +14,19 @@ describe('Fetch Orders Use Case', () => {
 
   it('should be able to fetch orders', async () => {
     await ordersRepository.create({
-      customer_id: 1,
+      user_id: 'user01',
       method_payment_id: 'card',
       payment_intent_id: 'pi2089321',
     })
 
     await ordersRepository.create({
-      customer_id: 1,
+      user_id: 'user01',
       method_payment_id: 'card',
       payment_intent_id: 'pi2089322',
     })
 
     const { orders } = await fetchOrdersUseCase.execute({
-      clientId: 1,
+      clientId: 'user01',
       page: 1,
     })
 
@@ -40,14 +40,14 @@ describe('Fetch Orders Use Case', () => {
   it('should be able to fetch paginated orders', async () => {
     for (let i = 1; i <= 12; i++) {
       await ordersRepository.create({
-        customer_id: 1,
+        user_id: 'user01',
         method_payment_id: 'card',
         payment_intent_id: `payment${i}`,
       })
     }
 
     const orderResponse = await fetchOrdersUseCase.execute({
-      clientId: 1,
+      clientId: 'user01',
       page: 2,
     })
 

@@ -1,13 +1,13 @@
 import { FastifyInstance } from 'fastify'
 
-import { registerCustomerAddress } from './register-customer-address'
-import { fetchCustomerAddress } from './fetch-customer-address'
-import { editCustomerAddress } from './edit-customer-address'
+import { registerAddress } from './register-address'
+import { fetchAddress } from './fetch-address'
+import { editAddress } from './edit-address'
 import { verifyJWT } from '../../middlewares/verify-jwt'
 
 export async function addressesRoutes(app: FastifyInstance) {
   app.addHook('onRequest', verifyJWT)
-  app.post('/addresses', registerCustomerAddress)
-  app.get('/addresses', fetchCustomerAddress)
-  app.put('/addresses', editCustomerAddress)
+  app.post('/addresses', registerAddress)
+  app.get('/addresses', fetchAddress)
+  app.put('/addresses', editAddress)
 }
