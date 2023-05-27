@@ -38,7 +38,7 @@ describe('Customer edit profile (E2E)', () => {
     const user = JSON.parse(responseEdit.text)
 
     expect(responseEdit.statusCode).toEqual(200)
-    console.log(user)
+
     expect(user).toEqual(
       expect.objectContaining({
         name: 'Junior Ferreira II',
