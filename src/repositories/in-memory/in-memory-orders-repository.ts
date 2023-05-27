@@ -5,11 +5,11 @@ export class InMemoryOrdersRepository implements OrderRepository {
   public items: Order[] = []
 
   async findManyByIdPaginated(
-    clientId: number,
+    clientId: string,
     page: number,
   ): Promise<OrdersPaginated | null> {
     const orders = this.items
-      .filter((item) => item.customer_id === clientId)
+      .filter((item) => item.user_id === clientId)
       .slice((page - 1) * 10, page * 10)
 
     if (!orders) {
@@ -39,7 +39,7 @@ export class InMemoryOrdersRepository implements OrderRepository {
       id: 1,
       payment_intent_id: data.payment_intent_id,
       method_payment_id: data.method_payment_id,
-      customer_id: data.customer_id,
+      user_id: data.user_id,
       created_at: new Date(),
     }
 

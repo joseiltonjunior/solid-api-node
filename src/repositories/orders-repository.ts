@@ -11,7 +11,7 @@ export interface OrderRepository {
   create(data: Prisma.OrderUncheckedCreateInput): Promise<Order>
   findById(number: string): Promise<Order | null>
   findManyByIdPaginated(
-    clientId: number,
+    clientId: string,
     page: number,
   ): Promise<OrdersPaginated | null>
 }

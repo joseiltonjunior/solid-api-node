@@ -10,19 +10,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Customer {
-  id            Int      @id @default(autoincrement())
+enum Role {
+  ADMIN
+  CUSTOMER
+}
+
+model User {
+  id            String   @id @default(uuid())
   customer_id   String   @unique
   name          String
   email         String   @unique
   password_hash String
   phone         String   @unique
   created_at    DateTime @default(now())
+  updated_at    DateTime @default(now()) @updatedAt
+  role          Role     @default(CUSTOMER)
+  orders        Order[]
+  address       Address?
 
-  orders  Order[]
-  address Address?
-
-  @@map("customers")
+  @@map("users")
 }
 
 model Order {
@@ -31,9 +37,9 @@ model Order {
   method_payment_id String
   payment_intent_id String   @unique
 
-  customer    Customer  @relation(fields: [customer_id], references: [id])
-  customer_id Int
-  products    Product[]
+  user     User      @relation(fields: [user_id], references: [id])
+  user_id  String
+  products Product[]
 
   @@map("orders")
 }
@@ -63,8 +69,8 @@ model Address {
   complement String
   city       String
 
-  customer    Customer @relation(fields: [customer_id], references: [id])
-  customer_id Int      @unique
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String @unique
 
   @@map("addresses")
 }

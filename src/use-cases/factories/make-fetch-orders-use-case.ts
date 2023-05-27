@@ -1,5 +1,5 @@
 import { PrismaOrdersRepository } from '@/repositories/prisma/prisma-orders-repository'
-import { FetchOrdersUseCase } from '../fetch-orders'
+import { FetchOrdersUseCase } from '@/use-cases/orders/fetch-orders'
 
 export function makeFetchOrdersUseCase() {
   const prismaOrderRepository = new PrismaOrdersRepository()

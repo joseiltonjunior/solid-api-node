@@ -4,17 +4,17 @@ import { prisma } from '@/lib/prisma'
 
 export class PrismaOrdersRepository implements OrderRepository {
   async findManyByIdPaginated(
-    clientId: number,
+    clientId: string,
     page: number,
   ): Promise<OrdersPaginated | null> {
     const orders = await prisma.order.findMany({
-      where: { customer_id: clientId },
+      where: { user_id: clientId },
       take: 10,
       skip: (page - 1) * 10,
     })
 
     const totalOrders = await prisma.order.findMany({
-      where: { customer_id: clientId },
+      where: { user_id: clientId },
     })
 
     return {
