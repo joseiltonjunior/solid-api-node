@@ -57,7 +57,7 @@ describe('Fetch Orders Use Case', () => {
       expect.objectContaining({ payment_intent_id: 'payment12' }),
     ])
     expect(orderResponse.currentPage).toEqual(2)
-    expect(orderResponse.totalOrders).toEqual(12)
+    expect(orderResponse.totalItems).toEqual(12)
     expect(orderResponse.totalPages).toEqual(2)
   })
 })

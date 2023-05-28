@@ -1,8 +1,24 @@
 import { prisma } from '@/lib/prisma'
 import { Prisma, User } from '@prisma/client'
-import { UsersRepository } from '../users-repository'
+import { UsersPaginated, UsersRepository } from '../users-repository'
 
 export class PrismaUsersRepository implements UsersRepository {
+  async findManyByPaginated(page: number): Promise<UsersPaginated | null> {
+    const users = await prisma.user.findMany({
+      take: 20,
+      skip: (page - 1) * 20,
+    })
+
+    const totalUsers = await prisma.user.findMany()
+
+    return {
+      users,
+      currentPage: page,
+      totalItems: totalUsers.length,
+      totalPages: Math.ceil(totalUsers.length / 20),
+    }
+  }
+
   async edit(data: Prisma.UserUncheckedUpdateInput): Promise<User> {
     const user = await prisma.user.update({
       where: { id: data.id as string },

@@ -1,5 +1,4 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
-
 import { z } from 'zod'
 
 import { UserAlreadyExistsError } from '@/use-cases/errors/user-already-exists-error'
@@ -10,17 +9,19 @@ export async function registerUser(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
+  const Roles = z.enum(['ADMIN', 'CUSTOMER'])
+
   const registerBodySchema = z.object({
     name: z.string(),
     email: z.string().email(),
     password: z.string().min(6),
     customerId: z.string(),
     phone: z.string().min(11).max(11),
+    role: z.optional(Roles),
   })
 
-  const { email, name, password, customerId, phone } = registerBodySchema.parse(
-    request.body,
-  )
+  const { email, name, password, customerId, phone, role } =
+    registerBodySchema.parse(request.body)
 
   try {
     const registerUseCase = makeRegisterUserUseCase()
@@ -31,9 +32,28 @@ export async function registerUser(
       password,
       customerId,
       phone,
+      role,
     })
 
-    return reply.status(201).send(JSON.stringify(user))
+    const token = await reply.jwtSign(
+      { role: user.role },
+      { sign: { sub: user.id } },
+    )
+
+    const refreshToken = await reply.jwtSign(
+      { role: user.role },
+      { sign: { sub: user.id, expiresIn: '7d' } },
+    )
+
+    return reply
+      .setCookie('refreshToken', refreshToken, {
+        path: '/',
+        secure: true,
+        httpOnly: true,
+        sameSite: true,
+      })
+      .status(201)
+      .send(JSON.stringify({ user, token }))
   } catch (err) {
     if (err instanceof UserAlreadyExistsError) {
       return reply.status(409).send({ message: err.message })

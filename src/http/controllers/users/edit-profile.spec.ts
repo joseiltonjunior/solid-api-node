@@ -1,6 +1,7 @@
 import request from 'supertest'
 import { app } from '@/app'
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
+import { createAndGetToken } from '@/utils/test/create-and-get-token-user'
 
 describe('Customer edit profile (E2E)', () => {
   beforeAll(async () => {
@@ -11,20 +12,7 @@ describe('Customer edit profile (E2E)', () => {
   })
 
   it('slould be able to edit profile', async () => {
-    await request(app.server).post('/users').send({
-      name: 'Junior Ferreira',
-      email: 'junior@teste.com',
-      password: '123456',
-      customerId: 'cus02',
-      phone: '81999999995',
-    })
-
-    const authResponse = await request(app.server).post('/sessions').send({
-      email: 'junior@teste.com',
-      password: '123456',
-    })
-
-    const { token } = authResponse.body
+    const token = await createAndGetToken(app)
 
     const responseEdit = await request(app.server)
       .put('/me')

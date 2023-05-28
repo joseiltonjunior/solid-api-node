@@ -29,7 +29,7 @@ export async function fetchOrders(
       id: request.user.sub,
     })
 
-    const { currentPage, orders, totalOrders, totalPages } =
+    const { currentPage, orders, totalItems, totalPages } =
       await fetchOrdersUseCase.execute({
         clientId: request.user.sub,
         page: Number(page),
@@ -54,7 +54,7 @@ export async function fetchOrders(
       JSON.stringify({
         orders: ordersWithProducts,
         currentPage,
-        totalOrders,
+        totalItems,
         totalPages,
       }),
     )

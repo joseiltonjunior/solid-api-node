@@ -20,7 +20,7 @@ export class PrismaOrdersRepository implements OrderRepository {
     return {
       orders,
       currentPage: page,
-      totalOrders: totalOrders.length,
+      totalItems: totalOrders.length,
       totalPages: Math.ceil(totalOrders.length / 10),
     }
   }

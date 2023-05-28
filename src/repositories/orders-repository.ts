@@ -1,10 +1,8 @@
+import { PaginatedProps } from '@/utils/paginated-types'
 import { Prisma, Order } from '@prisma/client'
 
-export interface OrdersPaginated {
+export interface OrdersPaginated extends PaginatedProps {
   orders: Order[]
-  totalOrders: number
-  currentPage: number
-  totalPages: number
 }
 
 export interface OrderRepository {

@@ -2,6 +2,7 @@ import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import request from 'supertest'
 
 import { app } from '@/app'
+import { createAndGetToken } from '@/utils/test/create-and-get-token-user'
 
 describe('Get profile customer (E2E)', () => {
   beforeAll(async () => {
@@ -12,20 +13,7 @@ describe('Get profile customer (E2E)', () => {
   })
 
   it('slould be able get customer profile', async () => {
-    await request(app.server).post('/users').send({
-      name: 'Junior Ferreira',
-      email: 'junior@teste.com',
-      password: '123456',
-      customerId: 'cus02',
-      phone: '81999999995',
-    })
-
-    const authResponse = await request(app.server).post('/sessions').send({
-      email: 'junior@teste.com',
-      password: '123456',
-    })
-
-    const { token } = authResponse.body
+    const token = await createAndGetToken(app)
 
     const profileResponse = await request(app.server)
       .get('/me')
