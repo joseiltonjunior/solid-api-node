@@ -1,6 +1,7 @@
 import request from 'supertest'
 import { app } from '@/app'
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
+import { createAndGetToken } from '@/utils/test/create-and-get-token-user'
 
 describe('Fetch customer address (E2E)', () => {
   beforeAll(async () => {
@@ -11,18 +12,7 @@ describe('Fetch customer address (E2E)', () => {
   })
 
   it('slould be able to get a customer address', async () => {
-    await request(app.server).post('/users').send({
-      name: 'Junior Ferreira',
-      email: 'junior@teste.com',
-      password: '123456',
-      customerId: 'cus02',
-      phone: '81999999995',
-    })
-
-    const responseToken = await request(app.server).post('/sessions').send({
-      email: 'junior@teste.com',
-      password: '123456',
-    })
+    const token = await createAndGetToken(app)
 
     await request(app.server)
       .post('/addresses')
@@ -35,12 +25,12 @@ describe('Fetch customer address (E2E)', () => {
         zipCode: '12345-123',
         complement: 'casa',
       })
-      .set('Authorization', `Bearer ${responseToken.body.token}`)
+      .set('Authorization', `Bearer ${token}`)
 
     const response = await request(app.server)
       .get('/addresses')
       .send()
-      .set('Authorization', `Bearer ${responseToken.body.token}`)
+      .set('Authorization', `Bearer ${token}`)
 
     const address = JSON.parse(response.text)
 

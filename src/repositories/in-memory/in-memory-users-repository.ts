@@ -1,10 +1,26 @@
 import { User, Prisma } from '@prisma/client'
-import { UsersRepository } from '../users-repository'
+import { UsersPaginated, UsersRepository } from '../users-repository'
 import { Roles } from '@/utils/roles-enum'
 import { randomUUID } from 'node:crypto'
 
 export class InMemoryUsersRepository implements UsersRepository {
   public items: User[] = []
+
+  async findManyByPaginated(page: number): Promise<UsersPaginated | null> {
+    const users = this.items.slice((page - 1) * 20, page * 20)
+
+    if (!users) {
+      return null
+    }
+
+    return {
+      users,
+      currentPage: page,
+      totalItems: this.items.length,
+      totalPages: Math.ceil(this.items.length / 10),
+    }
+  }
+
   async edit(data: Prisma.UserUncheckedUpdateInput): Promise<User> {
     const user = this.items.find((user) => user.id === data.id) as User
 

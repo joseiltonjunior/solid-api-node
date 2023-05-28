@@ -19,7 +19,7 @@ export class InMemoryOrdersRepository implements OrderRepository {
     return {
       orders,
       currentPage: page,
-      totalOrders: this.items.length,
+      totalItems: this.items.length,
       totalPages: Math.ceil(this.items.length / 10),
     }
   }

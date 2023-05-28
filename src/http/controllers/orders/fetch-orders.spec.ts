@@ -2,6 +2,7 @@ import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import request from 'supertest'
 
 import { app } from '@/app'
+import { createAndGetToken } from '@/utils/test/create-and-get-token-user'
 
 describe('Get a many orders (E2E)', () => {
   beforeAll(async () => {
@@ -12,20 +13,7 @@ describe('Get a many orders (E2E)', () => {
   })
 
   it('should be able to get a many orders', async () => {
-    await request(app.server).post('/users').send({
-      name: 'Junior Ferreira',
-      email: 'junior@teste.com',
-      password: '123456',
-      customerId: 'cus02',
-      phone: '81999999995',
-    })
-
-    const authResponse = await request(app.server).post('/sessions').send({
-      email: 'junior@teste.com',
-      password: '123456',
-    })
-
-    const { token } = authResponse.body
+    const token = await createAndGetToken(app)
 
     await request(app.server)
       .post('/orders')
@@ -72,14 +60,14 @@ describe('Get a many orders (E2E)', () => {
       .set('Authorization', `Bearer ${token}`)
       .send()
 
-    const { orders, totalOrders, totalPages, currentPage } = JSON.parse(
+    const { orders, totalItems, totalPages, currentPage } = JSON.parse(
       ordersResponse.text,
     )
 
     expect(ordersResponse.statusCode).toEqual(200)
     expect(orders).toHaveLength(2)
     expect(currentPage).toEqual(1)
-    expect(totalOrders).toEqual(2)
+    expect(totalItems).toEqual(2)
     expect(totalPages).toEqual(1)
 
     expect(orders).toEqual([

@@ -11,6 +11,7 @@ interface registerUserRequest {
   password: string
   customerId: string
   phone: string
+  role?: 'CUSTOMER' | 'ADMIN'
 }
 
 interface RegisterUserUseCaseResponse {
@@ -26,6 +27,7 @@ export class RegisterUserUseCase {
     password,
     customerId,
     phone,
+    role = 'CUSTOMER',
   }: registerUserRequest): Promise<RegisterUserUseCaseResponse> {
     const password_hash = await hash(password, 6)
 
@@ -53,6 +55,7 @@ export class RegisterUserUseCase {
       password_hash,
       phone,
       customer_id: customerId,
+      role,
     })
 
     return { user }
