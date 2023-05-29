@@ -2,7 +2,7 @@ import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import request from 'supertest'
 
 import { app } from '@/app'
-import { createAndGetToken } from '@/utils/test/create-and-get-token-user'
+import { createAndAuthenticate } from '@/utils/test/create-and-get-token-user'
 
 describe('Fetch many users paginated only admins (E2E)', () => {
   beforeAll(async () => {
@@ -13,7 +13,7 @@ describe('Fetch many users paginated only admins (E2E)', () => {
   })
 
   it('slould be able get customer profile', async () => {
-    const token = await createAndGetToken(app, true)
+    const token = await createAndAuthenticate(app, true)
 
     await request(app.server).post('/users').send({
       name: 'Junior Ferreira',
