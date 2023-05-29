@@ -35,25 +35,7 @@ export async function registerUser(
       role,
     })
 
-    const token = await reply.jwtSign(
-      { role: user.role },
-      { sign: { sub: user.id } },
-    )
-
-    const refreshToken = await reply.jwtSign(
-      { role: user.role },
-      { sign: { sub: user.id, expiresIn: '7d' } },
-    )
-
-    return reply
-      .setCookie('refreshToken', refreshToken, {
-        path: '/',
-        secure: true,
-        httpOnly: true,
-        sameSite: true,
-      })
-      .status(201)
-      .send(JSON.stringify({ user, token }))
+    return reply.status(201).send(JSON.stringify({ user }))
   } catch (err) {
     if (err instanceof UserAlreadyExistsError) {
       return reply.status(409).send({ message: err.message })

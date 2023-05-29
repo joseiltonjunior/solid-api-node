@@ -2,7 +2,7 @@ import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import request from 'supertest'
 
 import { app } from '@/app'
-import { createAndGetToken } from '@/utils/test/create-and-get-token-user'
+import { createAndAuthenticate } from '@/utils/test/create-and-get-token-user'
 
 describe('Make an order (E2E)', () => {
   beforeAll(async () => {
@@ -13,7 +13,7 @@ describe('Make an order (E2E)', () => {
   })
 
   it('should be able to make an order', async () => {
-    const token = await createAndGetToken(app)
+    const token = await createAndAuthenticate(app)
 
     const orderResponse = await request(app.server)
       .post('/orders')

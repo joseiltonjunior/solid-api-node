@@ -1,7 +1,7 @@
 import request from 'supertest'
 import { app } from '@/app'
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
-import { createAndGetToken } from '@/utils/test/create-and-get-token-user'
+import { createAndAuthenticate } from '@/utils/test/create-and-get-token-user'
 
 describe('Customer edit profile (E2E)', () => {
   beforeAll(async () => {
@@ -12,7 +12,7 @@ describe('Customer edit profile (E2E)', () => {
   })
 
   it('slould be able to edit profile', async () => {
-    const token = await createAndGetToken(app)
+    const token = await createAndAuthenticate(app)
 
     const responseEdit = await request(app.server)
       .put('/me')

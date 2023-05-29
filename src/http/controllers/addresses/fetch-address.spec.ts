@@ -1,7 +1,7 @@
 import request from 'supertest'
 import { app } from '@/app'
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
-import { createAndGetToken } from '@/utils/test/create-and-get-token-user'
+import { createAndAuthenticate } from '@/utils/test/create-and-get-token-user'
 
 describe('Fetch customer address (E2E)', () => {
   beforeAll(async () => {
@@ -12,7 +12,7 @@ describe('Fetch customer address (E2E)', () => {
   })
 
   it('slould be able to get a customer address', async () => {
-    const token = await createAndGetToken(app)
+    const token = await createAndAuthenticate(app)
 
     await request(app.server)
       .post('/addresses')
