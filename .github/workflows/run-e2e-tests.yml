@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      postgres:
+      api-dcoffee-shop-pg:
         image: bitnami/postgresql
         ports:
           - 5432:5432
