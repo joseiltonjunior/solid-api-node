@@ -8,7 +8,7 @@
     "start": "node build/server.js",
     "test:create-prisma-environment": "npm link ./prisma/vitest-environment-prisma",
     "test:install-prisma-environment": "npm link vitest-environment-prisma",
-    "build": "tsup src --pit-dir build",
+    "build": "tsup src --out-dir build",
     "test": "vitest run --dir src/use-cases",
     "test:watch": "vitest --dir src/use-cases",
     "test:coverage": "vitest run --coverage",
