@@ -9,6 +9,7 @@ Node API Solid PostgreSQL
 - [x] Deve ser possível buscar usuário;
 - [x] Deve ser possível se autenticar;
 - [x] Deve ser possível buscar os usuários cadastrados, apenas ADMINS;
+- [ ] Dever ser possível alterar o role do usuário cadastrado, apenas ADMINS;
 - [x] Deve ser possível obter o perfil de um usuário logado;
 - [x] Deve ser possível cadastrar o endereço de um usuário
 - [x] Deve ser possível alterar um endereço cadastrado;
