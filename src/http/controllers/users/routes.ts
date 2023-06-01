@@ -8,17 +8,35 @@ import { fetchManyUsers } from './fetch-many-users'
 import { verifyJWT } from '../../middlewares/verify-jwt'
 import { refresh } from './refresh'
 import { verifyUserRole } from '@/http/middlewares/verify-user-role'
+import { schemasUsers } from './schemas'
 
 export async function usersRoutes(app: FastifyInstance) {
-  app.post('/users', registerUser)
+  app.post('/users', schemasUsers.createUser, registerUser)
+
+  app.post('/sessions', schemasUsers.authUser, authenticate)
+  app.patch('/token/refresh', schemasUsers.refreshToken, refresh)
+
+  app.get(
+    '/me',
+    { onRequest: [verifyJWT], ...schemasUsers.fetchUser },
+    fetchProfile,
+  )
+
+  app.put(
+    '/me',
+    {
+      onRequest: [verifyJWT],
+      ...schemasUsers.editUser,
+    },
+    editProfile,
+  )
+
   app.get(
     '/users',
-    { onRequest: [verifyJWT, verifyUserRole('ADMIN')] },
+    {
+      onRequest: [verifyJWT, verifyUserRole('ADMIN')],
+      ...schemasUsers.fetchManyUsersPaginated,
+    },
     fetchManyUsers,
   )
-  app.post('/sessions', authenticate)
-  app.patch('/token/refresh', refresh)
-
-  app.get('/me', { onRequest: [verifyJWT] }, fetchProfile)
-  app.put('/me', { onRequest: [verifyJWT] }, editProfile)
 }

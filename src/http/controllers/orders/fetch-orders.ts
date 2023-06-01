@@ -50,14 +50,12 @@ export async function fetchOrders(
       }),
     )
 
-    return reply.status(200).send(
-      JSON.stringify({
-        orders: ordersWithProducts,
-        currentPage,
-        totalItems,
-        totalPages,
-      }),
-    )
+    return reply.status(200).send({
+      orders: ordersWithProducts,
+      currentPage,
+      totalItems,
+      totalPages,
+    })
   } catch (err) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })

@@ -7,7 +7,34 @@ import { verifyJWT } from '../../middlewares/verify-jwt'
 
 export async function addressesRoutes(app: FastifyInstance) {
   app.addHook('onRequest', verifyJWT)
-  app.post('/addresses', registerAddress)
-  app.get('/addresses', fetchAddress)
-  app.put('/addresses', editAddress)
+  app.post(
+    '/addresses',
+    {
+      schema: {
+        tags: ['Addresses'],
+        summary: 'Register user address',
+      },
+    },
+    registerAddress,
+  )
+  app.get(
+    '/addresses',
+    {
+      schema: {
+        tags: ['Addresses'],
+        summary: 'Fetch user address',
+      },
+    },
+    fetchAddress,
+  )
+  app.put(
+    '/addresses',
+    {
+      schema: {
+        tags: ['Addresses'],
+        summary: 'Edit user address',
+      },
+    },
+    editAddress,
+  )
 }

@@ -7,6 +7,24 @@ import { verifyJWT } from '../../middlewares/verify-jwt'
 
 export async function ordersRoutes(app: FastifyInstance) {
   app.addHook('onRequest', verifyJWT)
-  app.post('/orders', createOrder)
-  app.get('/orders', fetchOrders)
+  app.post(
+    '/orders',
+    {
+      schema: {
+        tags: ['Orders'],
+        summary: 'Create a order',
+      },
+    },
+    createOrder,
+  )
+  app.get(
+    '/orders',
+    {
+      schema: {
+        tags: ['Orders'],
+        summary: 'Fetch many orders paginated',
+      },
+    },
+    fetchOrders,
+  )
 }

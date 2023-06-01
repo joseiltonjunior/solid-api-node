@@ -45,7 +45,7 @@ export async function registerAddress(
       zipCode,
     })
 
-    return reply.status(201).send(JSON.stringify(address))
+    return reply.status(201).send(address)
   } catch (err) {
     if (err instanceof AddressAlreadyExistsError) {
       return reply.status(409).send({ message: err.message })

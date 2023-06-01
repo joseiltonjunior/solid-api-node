@@ -10,7 +10,6 @@ export async function registerUser(
   reply: FastifyReply,
 ) {
   const Roles = z.enum(['ADMIN', 'CUSTOMER'])
-
   const registerBodySchema = z.object({
     name: z.string(),
     email: z.string().email(),
@@ -35,7 +34,9 @@ export async function registerUser(
       role,
     })
 
-    return reply.status(201).send(JSON.stringify({ user }))
+    return reply
+      .status(201)
+      .send({ ...user, password_hash: undefined, role: undefined })
   } catch (err) {
     if (err instanceof UserAlreadyExistsError) {
       return reply.status(409).send({ message: err.message })

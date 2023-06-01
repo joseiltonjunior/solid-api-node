@@ -17,7 +17,7 @@ export async function fetchProfile(
 
     return reply
       .status(200)
-      .send(JSON.stringify({ ...user, password_hash: undefined }))
+      .send({ ...user, password_hash: undefined, role: undefined })
   } catch (err) {
     if (err instanceof UserNotExistsError) {
       return reply.status(404).send({ message: err.message })

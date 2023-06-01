@@ -31,7 +31,7 @@ export async function editProfile(
 
     return reply
       .status(200)
-      .send(JSON.stringify({ ...user, password_hash: undefined }))
+      .send({ ...user, password_hash: undefined, role: undefined })
   } catch (err) {
     if (err instanceof UserAlreadyExistsError) {
       return reply.status(409).send({ message: err.message })

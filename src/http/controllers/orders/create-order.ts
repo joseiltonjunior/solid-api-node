@@ -48,7 +48,7 @@ export async function createOrder(
       listProducts,
     })
 
-    return reply.status(201).send(JSON.stringify({ ...order, products }))
+    return reply.status(201).send({ ...order, products })
   } catch (err) {
     if (err instanceof OrderAlreadyExistsError) {
       return reply.status(409).send({ message: err.message })

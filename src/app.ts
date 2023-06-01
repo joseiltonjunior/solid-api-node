@@ -6,6 +6,9 @@ import { ZodError } from 'zod'
 import { env } from './env'
 import fastifyJwt from '@fastify/jwt'
 import fastifyCookie from '@fastify/cookie'
+import { fastifySwagger } from '@fastify/swagger'
+import { fastifySwaggerUi } from '@fastify/swagger-ui'
+import { swaggerOptions } from './swagger'
 
 export const app = fastify()
 
@@ -21,6 +24,11 @@ app.register(fastifyJwt, {
 })
 
 app.register(fastifyCookie)
+
+app.register(fastifySwagger, swaggerOptions)
+app.register(fastifySwaggerUi, {
+  routePrefix: '/swagger',
+})
 
 app.register(usersRoutes)
 app.register(ordersRoutes)
