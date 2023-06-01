@@ -10,6 +10,7 @@ Node API Solid PostgreSQL
 - [x] Deve ser possível se autenticar;
 - [x] Deve ser possível buscar os usuários cadastrados, apenas ADMINS;
 - [ ] Dever ser possível alterar o role do usuário cadastrado, apenas ADMINS;
+- [ ] Dever ser possível excluir um usuário, apenas ADMINS;
 - [x] Deve ser possível obter o perfil de um usuário logado;
 - [x] Deve ser possível cadastrar o endereço de um usuário
 - [x] Deve ser possível alterar um endereço cadastrado;
@@ -32,7 +33,7 @@ Node API Solid PostgreSQL
 - [x] o Token do usuário deve ter validade 10 min;
 - [x] Deve haver uma rota para atualizar o token (Refresh Token);
 - [x] Deve haver hierarquia de usuários (Customers | Admins);
-- [ ] Deve haver a documentação da API(Swagger), com todas rotas e com exemplos práticos;
+- [x] Deve haver a documentação da API(Swagger), com todas rotas e com exemplos práticos;
 - [x] Métodos POST não devem poder substituir informações já cadastradas;
 - [x] Métodos PUT não devem poder criar uma inforção;
 - [x] Exceto as rotas de criar e autenticar usuários, todas outras devem ser autenticadas;
