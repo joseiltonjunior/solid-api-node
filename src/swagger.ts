@@ -9,9 +9,11 @@ export const swaggerOptions: FastifyDynamicSwaggerOptions = {
     },
 
     tags: [
+      { name: 'Session', description: 'Session routes' },
       { name: 'Users', description: 'Users routes' },
       { name: 'Addresses', description: 'Addresses routes' },
       { name: 'Orders', description: 'Orders routes' },
+      { name: 'Admin', description: 'Admin routes' },
     ],
     consumes: ['application/json'],
     produces: ['application/json'],

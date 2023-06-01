@@ -77,7 +77,7 @@ export const schemasUsers: schemasProps = {
   },
   authUser: {
     schema: {
-      tags: ['Users'],
+      tags: ['Session'],
       summary: 'User Authentication',
       body: {
         type: 'object',
@@ -99,7 +99,7 @@ export const schemasUsers: schemasProps = {
   },
   refreshToken: {
     schema: {
-      tags: ['Users'],
+      tags: ['Session'],
       summary: 'Refresh Token User',
 
       response: {
@@ -141,7 +141,7 @@ export const schemasUsers: schemasProps = {
   },
   fetchManyUsersPaginated: {
     schema: {
-      tags: ['Users'],
+      tags: ['Admin'],
       summary: 'Fetch many users paginated',
       querystring: {
         page: { type: 'string' },

@@ -4,37 +4,11 @@ import { registerAddress } from './register-address'
 import { fetchAddress } from './fetch-address'
 import { editAddress } from './edit-address'
 import { verifyJWT } from '../../middlewares/verify-jwt'
+import { schemasAddresses } from './schemas'
 
 export async function addressesRoutes(app: FastifyInstance) {
   app.addHook('onRequest', verifyJWT)
-  app.post(
-    '/addresses',
-    {
-      schema: {
-        tags: ['Addresses'],
-        summary: 'Register user address',
-      },
-    },
-    registerAddress,
-  )
-  app.get(
-    '/addresses',
-    {
-      schema: {
-        tags: ['Addresses'],
-        summary: 'Fetch user address',
-      },
-    },
-    fetchAddress,
-  )
-  app.put(
-    '/addresses',
-    {
-      schema: {
-        tags: ['Addresses'],
-        summary: 'Edit user address',
-      },
-    },
-    editAddress,
-  )
+  app.post('/addresses', schemasAddresses.registerAddress, registerAddress)
+  app.get('/addresses', schemasAddresses.fetchAddress, fetchAddress)
+  app.put('/addresses', schemasAddresses.editAddress, editAddress)
 }
