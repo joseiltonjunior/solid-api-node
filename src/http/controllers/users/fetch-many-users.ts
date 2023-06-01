@@ -32,14 +32,17 @@ export async function fetchManyUsers(
       return newArray
     })
 
-    return reply.status(200).send(
-      JSON.stringify({
-        users: usersWithoutPasswordHash,
-        currentPage,
-        totalItems,
-        totalPages,
-      }),
-    )
+    return reply
+      .status(200)
+      .header('Content-Type', 'application/json')
+      .send(
+        JSON.stringify({
+          users: usersWithoutPasswordHash,
+          currentPage,
+          totalItems,
+          totalPages,
+        }),
+      )
   } catch (err) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })

@@ -9,13 +9,13 @@ export class PrismaUsersRepository implements UsersRepository {
       skip: (page - 1) * 20,
     })
 
-    const totalUsers = await prisma.user.findMany()
+    const totalUsers = await prisma.user.count()
 
     return {
       users,
       currentPage: page,
-      totalItems: totalUsers.length,
-      totalPages: Math.ceil(totalUsers.length / 20),
+      totalItems: totalUsers,
+      totalPages: Math.ceil(totalUsers / 20),
     }
   }
 

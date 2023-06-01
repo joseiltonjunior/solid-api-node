@@ -27,7 +27,7 @@ export class RegisterUserUseCase {
     password,
     customerId,
     phone,
-    role = 'CUSTOMER',
+    role,
   }: registerUserRequest): Promise<RegisterUserUseCaseResponse> {
     const password_hash = await hash(password, 6)
 
