@@ -8,6 +8,7 @@ import fastifyJwt from '@fastify/jwt'
 import fastifyCookie from '@fastify/cookie'
 import { fastifySwagger } from '@fastify/swagger'
 import { fastifySwaggerUi } from '@fastify/swagger-ui'
+import { fastifyCors } from '@fastify/cors'
 import { swaggerOptions } from './swagger'
 
 export const app = fastify()
@@ -22,7 +23,10 @@ app.register(fastifyJwt, {
     expiresIn: '10m',
   },
 })
-
+app.register(fastifyCors, {
+  origin: ['http://localhost:3000', 'https://dcoffee-shop.netlify.app'],
+  methods: ['GET', 'POST', 'PUT'],
+})
 app.register(fastifyCookie)
 
 app.register(fastifySwagger, swaggerOptions)
