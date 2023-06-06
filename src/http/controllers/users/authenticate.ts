@@ -36,7 +36,7 @@ export async function authenticate(
         path: '/',
         secure: true,
         httpOnly: true,
-        sameSite: true,
+        sameSite: 'none',
       })
       .status(200)
       .send({
