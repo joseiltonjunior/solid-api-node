@@ -27,7 +27,7 @@ describe('Refresh token (E2E)', () => {
     const cookies = authResponse.get('Set-Cookie')
 
     const response = await request(app.server)
-      .patch('/token/refresh')
+      .post('/token/refresh')
       .set('Cookie', cookies)
       .send()
 

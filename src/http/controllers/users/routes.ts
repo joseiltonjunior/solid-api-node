@@ -14,7 +14,7 @@ export async function usersRoutes(app: FastifyInstance) {
   app.post('/users', schemasUsers.createUser, registerUser)
 
   app.post('/sessions', schemasUsers.authUser, authenticate)
-  app.patch('/token/refresh', schemasUsers.refreshToken, refresh)
+  app.post('/token/refresh', schemasUsers.refreshToken, refresh)
 
   app.get(
     '/me',
