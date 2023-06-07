@@ -1,7 +1,15 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 
 export async function refresh(request: FastifyRequest, reply: FastifyReply) {
-  await request.jwtVerify({ onlyCookie: true })
+  const cookiesError = 'No Authorization was found in request.cookies'
+
+  await request.jwtVerify({ onlyCookie: true }).catch((err: Error) => {
+    if (err.message.includes(cookiesError)) {
+      return reply.status(401).send({ message: cookiesError })
+    }
+
+    throw err
+  })
 
   const { role } = request.user
 
@@ -20,7 +28,7 @@ export async function refresh(request: FastifyRequest, reply: FastifyReply) {
       path: '/',
       secure: true,
       httpOnly: true,
-      sameSite: true,
+      sameSite: 'none',
     })
     .status(200)
     .send({

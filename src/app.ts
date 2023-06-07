@@ -26,6 +26,7 @@ app.register(fastifyJwt, {
 app.register(fastifyCors, {
   origin: ['http://localhost:3000', 'https://dcoffee-shop.netlify.app'],
   methods: ['GET', 'POST', 'PUT', 'PATCH'],
+  credentials: true,
 })
 app.register(fastifyCookie)
 
